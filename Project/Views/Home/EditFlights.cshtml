@@ -1,0 +1,79 @@
+﻿@model Project.Models.Flight
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit Flights</title>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <style>
+        @*div {
+            text-align: center;
+        }*@
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @*td {
+            text-align: center;
+            vertical-align: middle;
+        }*@
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Edit Flights</h1>
+    </center>
+    <div>
+        @using (Html.BeginForm("EditFlight", "Home", FormMethod.Post))
+
+        {
+            <table class="center">
+                <tr>
+                    <td><strong>Flight Number:</strong></td>
+                    <td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>
+                </tr>
+                <tr>
+                    <td><strong>Price:</strong></td>
+                    <td> @Html.TextBoxFor(flight => flight.price) @Html.ValidationMessageFor(flight => flight.price)</td>
+                </tr>
+                <tr>
+                    <td><strong>Destination Country:</strong></td>
+                    <td> @Html.TextBoxFor(flight => flight.destination_country) @Html.ValidationMessageFor(flight => flight.destination_country)</td>
+                </tr>
+                <tr>
+                    <td><strong>Origin Country:</strong></td>
+                    <td> @Html.TextBoxFor(flight => flight.origin_country) @Html.ValidationMessageFor(flight => flight.origin_country)</td>
+                </tr>
+                <tr>
+                    <td><strong>Date and Time:</strong></td>
+                    <td> @Html.TextBoxFor(flight => flight.date_time) @Html.ValidationMessageFor(flight => flight.date_time)</td>
+                </tr>
+                <tr>
+                    <td><strong>Number of Seats:</strong></td>
+                    <td> @Html.TextBoxFor(flight => flight.num_of_seats) @Html.ValidationMessageFor(flight => flight.num_of_seats)</td>
+                </tr>
+            </table>
+
+            <br />
+
+            <center>
+                <input id="EditFlight" type="submit" value="Edit Flight" />
+            </center>
+
+
+        }
+    </div>
+</body>
+</html>

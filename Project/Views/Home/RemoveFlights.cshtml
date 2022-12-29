@@ -1,0 +1,59 @@
+﻿@model Project.Models.Flight
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Remove Flights</title>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <style>
+        @*div {
+            text-align: center;
+        }*@
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @*td {
+            text-align: center;
+            vertical-align: middle;
+        }*@
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>Remove Flights</h1>
+    </center>
+    <div>
+        @using (Html.BeginForm("RemoveFlight", "Home", FormMethod.Post))
+
+        {
+            <table class="center">
+                <tr>
+                    <td><strong>Flight Number:</strong></td>
+                    <td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>
+                </tr>
+            </table>
+
+            <br />
+
+            <center>
+                <input id="RemoveFlight" type="submit" value="Remove Flight" />
+            </center>
+
+
+        }
+    </div>
+</body>
+</html>
