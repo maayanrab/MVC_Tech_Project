@@ -16,7 +16,6 @@ namespace Project.Models
         public string destination_country { get; set; }
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Country must be between 2 and 50 characters")]
         public string origin_country { get; set; }
-
         public DateTime date_time { get; set; }
         public int num_of_seats { get; set; }
 
