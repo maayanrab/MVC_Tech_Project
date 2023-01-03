@@ -1,4 +1,25 @@
-﻿@model Project.Models.User
+﻿@*@model Project.Models.User
+
+    @{
+        Layout = null;
+    }
+
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@Model.username</title>
+    </head>
+    <body>
+        <div>
+            Username: @Model.username
+            </br>
+        </div>
+    </body>
+    </html>*@
+
+@model Project.Models.User
 
 @{
     Layout = null;
@@ -10,11 +31,41 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@Model.username</title>
+
+    <script>
+  function resizeIframe(obj) {
+    obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+  }
+    </script>
+
 </head>
 <body>
     <div>
+        <h1>User Dashboard</h1>
         Username: @Model.username
-        </br>
+        <center>
+            <table>
+                <tr>
+                    <td>&emsp;</td>
+                    <td><a href="/Home/SearchFlights" target="UserPages"><h4>Search Flights</h4></a></td>
+                    <td>&emsp;</td>
+                    <td>&emsp;</td>
+                    <td><a href="/Home/RemoveFlights" target="UserPages"><h4>Remove Flights</h4></a></td>
+                    <td>&emsp;</td>
+                    <td>&emsp;</td>
+                    <td><a href="/Home/EditFlights" target="UserPages"><h4>Edit Flights</h4></a></td>
+                    <td>&emsp;</td>
+                    <td>&emsp;</td>
+                    <td><a href="/Home/ShowFlights" target="UserPages"><h4>Show Flights</h4></a></td>
+                    <td>&emsp;</td>
+                </tr>
+            </table>
+        </center>
+
     </div>
+
+    <iframe name="UserPages" frameborder="0" style="width: 100%; height: 100%;" scrolling="no" onload="resizeIframe(this)"></iframe>
+
 </body>
 </html>
+
