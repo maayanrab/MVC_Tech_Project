@@ -149,6 +149,26 @@ namespace Project.Controllers
 
         }
 
+        public ActionResult SearchFlight(Flight flight)
+        {
+            FlightDal dal = new FlightDal();
+            var search = dal.Flights.Any(x => x.price == flight.price || x.destination_country == flight.destination_country || x.origin_country == flight.origin_country || x.date_time == flight.date_time || x.num_of_seats == flight.num_of_seats);
+            if(search)
+                return View("ReturnShowFlights");
+            /*FlightDal dal = new FlightDal();
+            *//*flight.flight_num = 1912;*//*
+            String temp = flight.date_time.ToString();  // EDIT BELOW
+            flight.date_time = DateTime.ParseExact("12/20/2024 20:48", "M/d/yyyy HH:mm", CultureInfo.InvariantCulture);
+            dal.Flights.Add(flight);
+            dal.SaveChanges();
 
+            *//*return View("admin", admin);*/
+            return View("SearchFlights");
+
+        }
+        public ActionResult SearchFlights()
+        {
+            return View();
+        }
     }
 }
