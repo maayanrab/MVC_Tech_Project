@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using Project.Models;
 using Project.Dal;
 using System.Globalization;
+using System.Xml.Linq;
+using Microsoft.Ajax.Utilities;
+using System.Diagnostics;
 
 namespace Project.Controllers
 {
@@ -59,31 +62,36 @@ namespace Project.Controllers
         {
 
             if (ModelState.IsValid) {
-                UserDal dal = new UserDal();
-                dal.Users.Add(user);
-                dal.SaveChanges();
 
-                return View("User", user);
+                UserDal dal = new UserDal();
+                var exists = dal.Users.Find(user.username);
+
+                if (exists == null)
+                {
+                    dal.Users.Add(user);
+                    dal.SaveChanges();
+
+                    return View("User", user);
+                }
             }
 
-            return View();
+            String errormsg = "Error: username already in use";
+            ViewBag.Message = errormsg;
+
+            return View("Register");
             
         }
 
         public ActionResult AddFlight(Flight flight)
         {
 
-            /*UserDal userdal = new UserDal();
-            var admin = userdal.Users.Find("admin");*/
-
             FlightDal dal = new FlightDal();
-            /*flight.flight_num = 1912;*/
-            String temp = flight.date_time.ToString();  // EDIT BELOW
-            flight.date_time = DateTime.ParseExact("12/20/2024 20:48", "M/d/yyyy HH:mm", CultureInfo.InvariantCulture);
+            String temp = flight.date_time.ToString();
+            String date = Request.Form["Date"];
+            flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
             dal.Flights.Add(flight);
             dal.SaveChanges();
 
-            /*return View("admin", admin);*/
             return View("ReturnShowFlights");
 
         }
@@ -144,6 +152,11 @@ namespace Project.Controllers
             var userexist = dal.Users.Any(x => x.username == user.username && x.password == user.password);
             if (userexist)
                 return View("User", user);
+            else
+            {
+                String errormsg = "username or password are incorrect";
+                ViewBag.Message = errormsg;
+            }
 
             return View("Login");
 

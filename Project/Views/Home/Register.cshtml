@@ -31,7 +31,7 @@
 
 <body>
     <center>
-    <h1>Register</h1>
+        <h1>Register</h1>
     </center>
     <div>
         @using (Html.BeginForm("Submit", "Home", FormMethod.Post))
@@ -57,5 +57,18 @@
 
         }
     </div>
+
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+
+    <br /><br />
+    <center><a href="/">Go back</a></center>
+
 </body>
 </html>
