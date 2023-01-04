@@ -42,9 +42,9 @@
         {
             <table class="center">
                 @*<tr>
-                    <td><strong>Flight Number:</strong></td>
-                    <td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>
-                </tr>*@
+                        <td><strong>Flight Number:</strong></td>
+                        <td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>
+                    </tr>*@
                 <tr>
                     <td><strong>Price:</strong></td>
                     <td> @Html.TextBoxFor(flight => flight.price) @Html.ValidationMessageFor(flight => flight.price)</td>
@@ -59,9 +59,9 @@
                 </tr>
                 <tr>
                     <td><strong>Date and Time:</strong></td>
-                <td>
-                    <input textmode="DateTime" type="text" value="d/M/yyyy HH:mm" name="Date" id="Date" class="hasDatepicker" />
-                </td>
+                    <td>
+                        <input textmode="DateTime" type="text" value="d/M/yyyy HH:mm" name="Date" id="Date" class="hasDatepicker" />
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Number of Seats:</strong></td>
@@ -78,5 +78,15 @@
 
         }
     </div>
+
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+
 </body>
 </html>

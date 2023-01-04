@@ -85,22 +85,34 @@ namespace Project.Controllers
         public ActionResult AddFlight(Flight flight)
         {
 
-            FlightDal dal = new FlightDal();
-            String temp = flight.date_time.ToString();
-            String date = Request.Form["Date"];
-            flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
-            dal.Flights.Add(flight);
-            dal.SaveChanges();
+            if (ModelState.IsValid)
+            {
 
-            return View("ReturnShowFlights");
+                FlightDal dal = new FlightDal();
+                try
+                {
+                    String date = Request.Form["Date"];
+                    flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
+                    dal.Flights.Add(flight);
+                    dal.SaveChanges();
+
+                    return View("ReturnShowFlights");
+                }
+                catch
+                {
+                    String errormsg = "Error: Form is invalid,\nplease make sure date is in format: d/M/yyyy HH:mm";
+                    ViewBag.Message = errormsg;
+
+                    return View("AddFlights");
+                }
+            }
+
+            return View("AddFlights");
 
         }
 
         public ActionResult RemoveFlight(Flight flight)
         {
-
-            /*UserDal userdal = new UserDal();
-            var admin = userdal.Users.Find("admin");*/
 
             FlightDal dal = new FlightDal();
             var cur_flight = dal.Flights.Find(flight.flight_num);
@@ -111,16 +123,12 @@ namespace Project.Controllers
                 dal.SaveChanges();
             }
 
-            /*return View("admin", admin);*/
             return View("ReturnShowFlights");
 
         }
 
         public ActionResult EditFlight(Flight flight)
         {
-
-            /*UserDal userdal = new UserDal();
-            var admin = userdal.Users.Find("admin");*/
 
             FlightDal dal = new FlightDal();
             var cur_flight = dal.Flights.Find(flight.flight_num);  // ADD EDIT
@@ -129,13 +137,12 @@ namespace Project.Controllers
             cur_flight.price = flight.price;
             cur_flight.destination_country = flight.destination_country;
             cur_flight.origin_country = flight.origin_country;
-            /*cur_flight.date_time = flight.date_time;*/
-            flight.date_time = DateTime.ParseExact("12/20/2024 20:48", "M/d/yyyy HH:mm", CultureInfo.InvariantCulture);
+            String date = Request.Form["Date"];
+            cur_flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
             cur_flight.num_of_seats = flight.num_of_seats;
 
             dal.SaveChanges();
 
-            /*return View("admin", admin);*/
             return View("ReturnShowFlights");
 
         }
@@ -173,9 +180,8 @@ namespace Project.Controllers
             String temp = flight.date_time.ToString();  // EDIT BELOW
             flight.date_time = DateTime.ParseExact("12/20/2024 20:48", "M/d/yyyy HH:mm", CultureInfo.InvariantCulture);
             dal.Flights.Add(flight);
-            dal.SaveChanges();
+            dal.SaveChanges();*/
 
-            *//*return View("admin", admin);*/
             return View("SearchFlights");
 
         }
