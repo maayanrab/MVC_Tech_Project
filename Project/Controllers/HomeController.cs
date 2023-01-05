@@ -85,29 +85,21 @@ namespace Project.Controllers
         public ActionResult AddFlight(Flight flight)
         {
 
-            if (ModelState.IsValid)
+            FlightDal dal = new FlightDal();
+            try
             {
+                String date = Request.Form["Date"];
+                flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
+                dal.Flights.Add(flight);
+                dal.SaveChanges();
 
-                FlightDal dal = new FlightDal();
-                try
-                {
-                    String date = Request.Form["Date"];
-                    flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
-                    dal.Flights.Add(flight);
-                    dal.SaveChanges();
-
-                    return View("ReturnShowFlights");
-                }
-                catch
-                {
-                    String errormsg = "Error: Form is invalid,\nplease make sure date is in format: d/M/yyyy HH:mm";
-                    ViewBag.Message = errormsg;
-
-                    return View("AddFlights");
-                }
+                return View("ReturnShowFlights");
             }
-
-            return View("AddFlights");
+            catch
+            {
+                ViewBag.Message = "Error:\nForm is invalid,\nplease make sure date is in format: d/M/yyyy HH:mm";
+                return View("AddFlights");
+            }
 
         }
 
@@ -190,14 +182,39 @@ namespace Project.Controllers
                 }
                 catch
                 {
-                    ViewBag.Message = "Error";
+                    ViewBag.Message = "Error: date format is invalid";
+                    return View("SearchFlights");
                 }
-            var search = dal.Flights.Any(x => x.price <= flight.price || x.destination_country == flight.destination_country || x.origin_country == flight.origin_country || x.date_time == flight.date_time);
+            
+                FlightDal entities = new FlightDal();
 
-            if (search)
-                return View("ReturnShowFlights");
+                List<Flight> flightLst = new List<Flight>();
 
-            return View("SearchFlights");
+                foreach (Flight f in entities.Flights.ToList())
+                {
+
+                    if (flight.price != 0 && f.price > flight.price)
+                        continue;
+
+                    if (flight.destination_country != null && f.destination_country != flight.destination_country)
+                        continue;
+
+                    if (flight.origin_country != null && f.origin_country != flight.origin_country)
+                            continue;
+
+                    if (date != "" && f.date_time != flight.date_time)
+                        continue;
+
+                    flightLst.Add(f);
+
+                }
+
+                return View("ShowFlights", flightLst);
+                /*return View("ShowFlights", entities.Flights.ToList());*/
+                /*return View("ReturnShowFlights");*/
+            
+
+            /*return View("SearchFlights");*/
         }
         public ActionResult SearchFlights()
         {
