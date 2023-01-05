@@ -172,18 +172,32 @@ namespace Project.Controllers
         public ActionResult SearchFlight(Flight flight)
         {
             FlightDal dal = new FlightDal();
-            var search = dal.Flights.Any(x => x.price == flight.price || x.destination_country == flight.destination_country || x.origin_country == flight.origin_country || x.date_time == flight.date_time || x.num_of_seats == flight.num_of_seats);
-            if(search)
+            String price = Request.Form["Price"];
+            Debug.WriteLine(price);
+            if (price != "")
+                flight.price = float.Parse(price, CultureInfo.InvariantCulture.NumberFormat);
+            String D_C = Request.Form["D_C"];
+            if (D_C != "")
+                flight.destination_country = D_C;
+            String O_C = Request.Form["O_C"];
+            if (O_C != "")
+                flight.origin_country = O_C;
+            String date = Request.Form["Date"];
+            if (date != "")
+                try
+                {
+                    flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    ViewBag.Message = "Error";
+                }
+            var search = dal.Flights.Any(x => x.price <= flight.price || x.destination_country == flight.destination_country || x.origin_country == flight.origin_country || x.date_time == flight.date_time);
+
+            if (search)
                 return View("ReturnShowFlights");
-            /*FlightDal dal = new FlightDal();
-            *//*flight.flight_num = 1912;*//*
-            String temp = flight.date_time.ToString();  // EDIT BELOW
-            flight.date_time = DateTime.ParseExact("12/20/2024 20:48", "M/d/yyyy HH:mm", CultureInfo.InvariantCulture);
-            dal.Flights.Add(flight);
-            dal.SaveChanges();*/
 
             return View("SearchFlights");
-
         }
         public ActionResult SearchFlights()
         {
