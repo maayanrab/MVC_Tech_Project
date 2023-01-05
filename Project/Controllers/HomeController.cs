@@ -48,8 +48,10 @@ namespace Project.Controllers
             return View();
         }
 
-        public ActionResult RemoveFlights()
+        [Route("Home/RemoveFlights/{flight_num}")]
+        public ActionResult RemoveFlights(string flight_num="")
         {
+            ViewBag.flight_num = flight_num;
             return View();
         }
 
@@ -113,25 +115,70 @@ namespace Project.Controllers
             {
                 dal.Flights.Remove(cur_flight);
                 dal.SaveChanges();
+                return View("ReturnShowFlights");
             }
 
-            return View("ReturnShowFlights");
+            String errormsg = "Flight was not found";
+            ViewBag.Message = errormsg;
+
+            return View("RemoveFlights");
 
         }
 
         public ActionResult EditFlight(Flight flight)
         {
 
+            String errormsg;
+
             FlightDal dal = new FlightDal();
             var cur_flight = dal.Flights.Find(flight.flight_num);  // ADD EDIT
 
-            cur_flight.flight_num = flight.flight_num;
-            cur_flight.price = flight.price;
-            cur_flight.destination_country = flight.destination_country;
-            cur_flight.origin_country = flight.origin_country;
+            if (cur_flight == null)
+            {
+                errormsg = "Flight was not found";
+                ViewBag.Message = errormsg;
+
+                return View("EditFlights");
+            }
+
+            if (Request.Form["price"] != "")
+                cur_flight.price = float.Parse(Request.Form["price"]);
+
+            if (Request.Form["dest_country"] != "")
+                cur_flight.destination_country = Request.Form["dest_country"];
+
+            if (Request.Form["or_country"] != "")
+                cur_flight.origin_country = Request.Form["or_country"];
+
             String date = Request.Form["Date"];
-            cur_flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
-            cur_flight.num_of_seats = flight.num_of_seats;
+            if (date != "")
+            {
+                try
+                {
+                    cur_flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    ViewBag.Message = "Error: date format is invalid.\nCorrect format is: d/M/yyyy HH:mm";
+                    return View("EditFlights");
+                }
+            }
+
+            if (Request.Form["seats_num"] != "")
+            {
+                try
+                {
+                    int new_seats = Int32.Parse(Request.Form["seats_num"]);
+                    if (new_seats < 0)
+                        throw new Exception("Negative seats number");
+                    cur_flight.num_of_seats = new_seats;
+                }
+                catch
+                {
+                    ViewBag.Message = "Error: number of seats is invalid";
+                    return View("EditFlights");
+                }
+            }
 
             dal.SaveChanges();
 
@@ -182,7 +229,7 @@ namespace Project.Controllers
                 }
                 catch
                 {
-                    ViewBag.Message = "Error: date format is invalid";
+                    ViewBag.Message = "Error: date format is invalid.\nCorrect format is: d/M/yyyy HH:mm";
                     return View("SearchFlights");
                 }
             
@@ -208,7 +255,7 @@ namespace Project.Controllers
                     flightLst.Add(f);
 
                 }
-
+                
                 return View("ShowFlights", flightLst);
                 /*return View("ShowFlights", entities.Flights.ToList());*/
                 /*return View("ReturnShowFlights");*/
@@ -220,5 +267,39 @@ namespace Project.Controllers
         {
             return View();
         }
+
+        public ActionResult ShowFlight(String sort)
+        {
+            FlightDal entities = new FlightDal();
+
+            ViewBag.PriceSortParm = sort == "price_inc" ? "price_desc" : "price_inc";
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sort) ? "country" : "";
+            // ViewBag.PopSortParm = String.IsNullOrEmpty(sort) ? "popularity" : "";
+
+
+            var ent = from f in entities.Flights
+                      select f;
+            switch (sort)
+            {
+                case "price_inc":
+                    ent = ent.OrderBy(f => f.price);
+                    break;
+                case "price_desc":
+                    ent = ent.OrderByDescending(f => f.price);
+                    break;
+                //case "popularity":
+                //    ent = ent.OrderByDescending(f => f.EnrollmentDate);
+                //    break;
+
+                case "country":
+                    ent = ent.OrderBy(f => f.origin_country);
+                    break;
+
+
+
+            }
+            return View("ShowFlights", ent.ToList());
+        }
+
     }
 }

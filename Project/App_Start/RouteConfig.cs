@@ -25,6 +25,12 @@ namespace Project
                 defaults: new { controller = "Home", action = "Login", id = UrlParameter.Optional }
             );*/
 
+            /*routes.MapRoute(
+                "HomeController",
+                "{controller}/{action}/{flight_num}",
+                new { controller = "HomeController", action = "RemoveFlights", flight_num = UrlParameter.Optional }
+            );*/
+
         }
     }
 }

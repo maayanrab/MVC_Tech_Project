@@ -1,4 +1,4 @@
-﻿@model Project.Models.Flight
+﻿@*@model Project.Models.Flight*@
 
 @{
     Layout = null;
@@ -34,15 +34,19 @@
 <body>
     <center>
         <h1>Remove Flights</h1>
+
     </center>
     <div>
         @using (Html.BeginForm("RemoveFlight", "Home", FormMethod.Post))
 
-        {
+            {
             <table class="center">
                 <tr>
                     <td><strong>Flight Number:</strong></td>
-                    <td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>
+                    @*<td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>*@
+                    <td>
+                        <input type="number" value="@ViewBag.flight_num" name="flight_num" id="flight_num" />
+                    </td>
                 </tr>
             </table>
 
@@ -53,7 +57,17 @@
             </center>
 
 
-        }
-    </div>
+            }
+        </div>
+
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+
 </body>
 </html>

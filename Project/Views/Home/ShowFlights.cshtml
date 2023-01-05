@@ -22,13 +22,15 @@
                     @Html.DisplayNameFor(model => model.flight_num)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.price)
+                    @*@Html.DisplayNameFor(model => model.price)*@
+                    @Html.ActionLink("price", "ShowFlight", new { sort = ViewBag.PriceSortParm })
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.destination_country)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.origin_country)
+                    @*@Html.DisplayNameFor(model => model.origin_country)*@
+                    @Html.ActionLink("origin_country", "ShowFlight", new { sort = ViewBag.NameSortParm })
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.date_time)
@@ -63,7 +65,8 @@
                     <td>
                         @Html.ActionLink("Edit", "EditFlights") |
                         @*@Html.ActionLink("EditCurrent", "EditFlights", new { id = item.flight_num }) |*@
-                        @*@Html.ActionLink("Remove", "RemoveFlights", new { id = item.flight_num }) |*@
+                        @*@Html.ActionLink("RemoveCurrent", "RemoveFlights", new { id = item.flight_num }) |*@
+                        @Html.ActionLink("RemoveCurrent", "RemoveFlights", new { id = item.flight_num }, new { flight_num = ViewBag.flight }) |
                         @*@Html.ActionLink("RemoveCurrent", "RemoveFlightByNum", new { id = item.flight_num }) |*@
                         @Html.ActionLink("Remove", "RemoveFlights")
                     </td>
