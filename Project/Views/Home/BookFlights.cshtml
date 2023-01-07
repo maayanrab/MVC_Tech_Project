@@ -1,5 +1,4 @@
-﻿@model String
-@*@model Project.Models.Ticket*@
+﻿@model Project.Models.Ticket
 
 @{
     Layout = null;
@@ -34,24 +33,34 @@
 </head>
 
 <body>
+    @if (ViewBag.flight_num == -1)
+    {
+        ViewBag.flight_num = "";
+    }
 
     <center>
         <h1>Book Flights</h1>
-        @Model
-        @Model.IsEmpty()
+        @*@ViewBag.username*@
     </center>
     <div>
-        @using (Html.BeginForm("BookFlight", "Home", FormMethod.Post))
+        @using (Html.BeginForm("BookFlight", "Home", new { username = ViewBag.username }, FormMethod.Post))
 
         {
             <table class="center">
+
+                
+
                 <tr>
                     <td><strong>Flight Number:</strong></td>
                     @*<td> @Html.TextBoxFor(ticket => ticket.flight_num) @Html.ValidationMessageFor(ticket => ticket.flight_num)</td>*@
+                    <td>
+                        <input type="number" value="@ViewBag.flight_num" name="flight_num" id="flight_num" />
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Number of Tickets:</strong></td>
-                    @*<td> @Html.TextBoxFor(ticket => ticket.num_of_tickets) @Html.ValidationMessageFor(ticket => ticket.num_of_tickets)</td>*@
+                    <td> @Html.TextBoxFor(ticket => ticket.num_of_tickets) @Html.ValidationMessageFor(ticket => ticket.num_of_tickets)</td>
+
                 </tr>
             </table>
 

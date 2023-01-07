@@ -308,17 +308,20 @@ namespace Project.Controllers
             return View("ShowFlights", ent.ToList());
         }
 
-        public ActionResult BookFlights(String username)
+        public ActionResult BookFlights(string username, int id = -1)
         {
-            return View("BookFlights", username);
+            ViewBag.username = username;
+            ViewBag.flight_num = id;
+            return View("BookFlights");
         }
 
-        public ActionResult BookFlight(Ticket ticket)
+        public ActionResult BookFlight(Ticket ticket, string username)
         {
 
             TicketDal dal = new TicketDal();
             try
             {
+                ticket.username = username;
                 dal.Tickets.Add(ticket);
                 dal.SaveChanges();
 

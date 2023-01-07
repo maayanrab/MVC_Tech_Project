@@ -63,8 +63,7 @@
                         @Html.DisplayFor(modelItem => item.num_of_seats)
                     </td>
                     <td>
-                        @Html.ActionLink("Book Flight", "BookFlights", new { id = item.flight_num }) | 
-                        <a asp-controller="Home" asp-action="BookFlight" asp-route-id=item.flight_num>ProductName</a>
+                        @Html.ActionLink("Book Flight", "BookFlights", new { id = item.flight_num, username = @ViewBag.username })
                     </td>
                 </tr>
             }
