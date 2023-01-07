@@ -32,6 +32,11 @@
 </head>
 
 <body>
+    @if (ViewBag.flight_num == -1)
+    {
+        ViewBag.flight_num = "";
+    }
+
     <center>
         <h1>Edit Flights</h1>
     </center>
@@ -42,7 +47,10 @@
             <table class="center">
                 <tr>
                     <td><strong>Flight Number:</strong></td>
-                    <td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>
+                    @*<td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>*@
+                    <td>
+                        <input type="number" value="@ViewBag.flight_num" name="flight_num" id="flight_num" />
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Price:</strong></td>

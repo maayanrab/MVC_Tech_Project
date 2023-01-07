@@ -1,4 +1,5 @@
-﻿@*@model Project.Models.Flight*@
+﻿@model String
+@*@model Project.Models.Ticket*@
 
 @{
     Layout = null;
@@ -9,7 +10,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Remove Flights</title>
+    <title>Book Flights</title>
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
@@ -29,35 +30,35 @@
             vertical-align: middle;
         }*@
     </style>
+
 </head>
 
 <body>
-    @if (ViewBag.flight_num == -1)
-    {
-        ViewBag.flight_num = "";
-    }
 
     <center>
-        <h1>Remove Flights</h1>
+        <h1>Book Flights</h1>
+        @Model
+        @Model.IsEmpty()
     </center>
     <div>
-        @using (Html.BeginForm("RemoveFlight", "Home", FormMethod.Post))
+        @using (Html.BeginForm("BookFlight", "Home", FormMethod.Post))
 
         {
             <table class="center">
                 <tr>
                     <td><strong>Flight Number:</strong></td>
-                    @*<td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>*@
-                    <td>
-                        <input type="number" value="@ViewBag.flight_num" name="flight_num" id="flight_num" />
-                    </td>
+                    @*<td> @Html.TextBoxFor(ticket => ticket.flight_num) @Html.ValidationMessageFor(ticket => ticket.flight_num)</td>*@
+                </tr>
+                <tr>
+                    <td><strong>Number of Tickets:</strong></td>
+                    @*<td> @Html.TextBoxFor(ticket => ticket.num_of_tickets) @Html.ValidationMessageFor(ticket => ticket.num_of_tickets)</td>*@
                 </tr>
             </table>
 
             <br />
 
             <center>
-                <input id="RemoveFlight" type="submit" value="Remove Flight" />
+                <input id="BookFlight" type="submit" value="Book Flight" />
             </center>
 
 

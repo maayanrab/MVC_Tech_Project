@@ -28,8 +28,10 @@ namespace Project.Controllers
 
         }
 
-        public ActionResult ShowFlightsUser()
+        public ActionResult ShowFlightsUser(string username)
         {
+            ViewBag.username = username;
+
             var entities = new FlightDal();
 
             return View(entities.Flights.ToList());
@@ -56,15 +58,15 @@ namespace Project.Controllers
             return View();
         }
 
-        [Route("Home/RemoveFlights/{flight_num}")]
-        public ActionResult RemoveFlights(string flight_num="")
+        public ActionResult RemoveFlights(int id = -1)
         {
-            ViewBag.flight_num = flight_num;
+            ViewBag.flight_num = id;
             return View();
         }
 
-        public ActionResult EditFlights()
+        public ActionResult EditFlights(int id = -1)
         {
+            ViewBag.flight_num = id;
             return View();
         }
 
@@ -305,6 +307,36 @@ namespace Project.Controllers
             }
             return View("ShowFlights", ent.ToList());
         }
+
+        public ActionResult BookFlights(String username)
+        {
+            return View("BookFlights", username);
+        }
+
+        public ActionResult BookFlight(Ticket ticket)
+        {
+
+            TicketDal dal = new TicketDal();
+            try
+            {
+                dal.Tickets.Add(ticket);
+                dal.SaveChanges();
+
+                return View("SearchFlights");
+            }
+            catch
+            {
+                ViewBag.Message = "Error:\nForm is invalid";
+                return View("BookFlights");
+            }
+
+        }
+
+
+
+
+
+
 
     }
 }
