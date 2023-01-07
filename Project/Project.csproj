@@ -178,6 +178,7 @@
     <Content Include="Views\Home\ShowFlights.cshtml" />
     <Content Include="Views\Home\ReturnShowFlights.cshtml" />
     <Content Include="Views\Home\SearchFlights.cshtml" />
+    <Content Include="Views\Home\ShowFlightsUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

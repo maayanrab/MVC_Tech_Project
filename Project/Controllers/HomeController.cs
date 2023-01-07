@@ -28,6 +28,14 @@ namespace Project.Controllers
 
         }
 
+        public ActionResult ShowFlightsUser()
+        {
+            var entities = new FlightDal();
+
+            return View(entities.Flights.ToList());
+
+        }
+
         public ActionResult ReturnShowFlights()
         {
             return View();
@@ -131,7 +139,7 @@ namespace Project.Controllers
             String errormsg;
 
             FlightDal dal = new FlightDal();
-            var cur_flight = dal.Flights.Find(flight.flight_num);  // ADD EDIT
+            var cur_flight = dal.Flights.Find(flight.flight_num);
 
             if (cur_flight == null)
             {
@@ -256,12 +264,9 @@ namespace Project.Controllers
 
                 }
                 
-                return View("ShowFlights", flightLst);
-                /*return View("ShowFlights", entities.Flights.ToList());*/
-                /*return View("ReturnShowFlights");*/
+                return View("ShowFlightsUser", flightLst);
             
 
-            /*return View("SearchFlights");*/
         }
         public ActionResult SearchFlights()
         {
