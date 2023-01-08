@@ -182,6 +182,7 @@
     <Content Include="Views\Home\SearchFlights.cshtml" />
     <Content Include="Views\Home\ShowFlightsUser.cshtml" />
     <Content Include="Views\Home\BookFlights.cshtml" />
+    <Content Include="Views\Home\ShowTickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

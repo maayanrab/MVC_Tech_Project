@@ -318,14 +318,19 @@ namespace Project.Controllers
         public ActionResult BookFlight(Ticket ticket, string username)
         {
 
-            TicketDal dal = new TicketDal();
+            TicketDal ticketdal = new TicketDal();
+            FlightDal flightdal = new FlightDal();
+            Flight flight;
             try
             {
                 ticket.username = username;
-                dal.Tickets.Add(ticket);
-                dal.SaveChanges();
+                ticketdal.Tickets.Add(ticket);
+                ticketdal.SaveChanges();
+                flight = flightdal.Flights.Find(ticket.flight_num);
+                flight.num_of_seats -= ticket.num_of_tickets;
+                flightdal.SaveChanges();
 
-                return View("SearchFlights");
+                return Redirect(String.Format("/Home/ShowTickets/{0}", username));
             }
             catch
             {
@@ -334,6 +339,27 @@ namespace Project.Controllers
             }
 
         }
+
+        public ActionResult ShowTickets(string username)
+        {
+            ViewBag.username = username;
+
+            TicketDal entities = new TicketDal();
+
+            List<Ticket> ticketLst = new List<Ticket>();
+
+            foreach (Ticket t in entities.Tickets.ToList())
+            {
+                if (t.username == username)
+                    ticketLst.Add(t);
+
+            }
+
+            return View(ticketLst);
+
+        }
+
+
 
 
 

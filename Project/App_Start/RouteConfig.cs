@@ -14,6 +14,12 @@ namespace Project
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "ShowTickets",
+                url: "{controller}/ShowTickets/{username}/",
+                defaults: new { controller = "Home", action = "ShowTickets", username = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "ShowFlightsUsername",
                 url: "{controller}/ShowFlightsUser/{username}/",
                 defaults: new { controller = "Home", action = "ShowFlightsUser", username = UrlParameter.Optional }

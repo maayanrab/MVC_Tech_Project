@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Project.Models.Ticket>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>myflights</title>
+</head>
+<body>
+
+    <center>
+        <h1>My Flights</h1>
+
+        <table class="table" border="1">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.flight_num)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.num_of_tickets)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.flight_num)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.num_of_tickets)
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </center>
+</body>
+</html>
