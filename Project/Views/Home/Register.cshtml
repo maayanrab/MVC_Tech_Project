@@ -59,6 +59,13 @@
                     <td><strong>Password:</strong></td>
                     <td> @Html.PasswordFor(user => user.password) @Html.ValidationMessageFor(user => user.password)</td>
                 </tr>
+                @*Repeat password:*@
+                <tr>
+                    <td><strong>Repeat password:</strong></td>
+                    <td>
+                        <input type="password" value="" name="rpassword" id="rpassword" />
+                    </td>
+                </tr>
             </table>
 
             <br />

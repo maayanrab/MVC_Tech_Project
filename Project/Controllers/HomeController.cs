@@ -75,8 +75,17 @@ namespace Project.Controllers
 
         public ActionResult Submit(User user)
         {
+            String errormsg;
 
             if (ModelState.IsValid) {
+
+                if (user.password != Request.Form["rpassword"])
+                {
+                    errormsg = "Error: passwords do not match";
+                    ViewBag.Message = errormsg;
+
+                    return View("Register");
+                }
 
                 UserDal dal = new UserDal();
                 var exists = dal.Users.Find(user.username);
@@ -90,7 +99,7 @@ namespace Project.Controllers
                 }
             }
 
-            String errormsg = "Error: username already in use";
+            errormsg = "Error: username already in use";
             ViewBag.Message = errormsg;
 
             return View("Register");
