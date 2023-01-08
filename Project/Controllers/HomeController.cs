@@ -369,7 +369,7 @@ namespace Project.Controllers
                 else
                 {
                     ViewBag.Message = "Error:\n not enough remaining tickets";
-                    return View("ShowFlightsUser", flightdal.Flights.ToList());
+                    return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
                 }
             }
             catch
