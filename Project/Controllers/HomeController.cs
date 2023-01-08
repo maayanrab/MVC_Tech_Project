@@ -276,8 +276,9 @@ namespace Project.Controllers
             return View("ShowFlights", OrderFlights(sort));
         }
 
-        public ActionResult OrderUserFlights(String sort)
+        public ActionResult OrderUserFlights(String sort, String username)
         {
+            ViewBag.username = username;
             return View("ShowFlightsUser", OrderFlights(sort));
         }
 

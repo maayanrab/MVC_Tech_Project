@@ -54,7 +54,7 @@
                     <td><strong>Flight Number:</strong></td>
                     @*<td> @Html.TextBoxFor(ticket => ticket.flight_num) @Html.ValidationMessageFor(ticket => ticket.flight_num)</td>*@
                     <td>
-                        <input type="number" value="@ViewBag.flight_num" name="flight_num" id="flight_num" />
+                        <input type="number" readonly="readonly" value="@ViewBag.flight_num" name="flight_num" id="flight_num" />
                     </td>
                 </tr>
                 <tr>

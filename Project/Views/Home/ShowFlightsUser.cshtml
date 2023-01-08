@@ -15,23 +15,23 @@
 
     <center>
         <h1>Show Flights</h1>
-
+        @ViewBag.username
         <table class="table" border="1">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.flight_num)
                 </th>
                 <th>
-                    @Html.ActionLink("price", "OrderUserFlights", new { sort = ViewBag.PriceSortParm })
+                    @Html.ActionLink("price", "OrderUserFlights", new { sort = ViewBag.PriceSortParm, username = @ViewBag.username })
                 </th>
                 <th>
-                    @Html.ActionLink("destination_country", "OrderUserFlights", new { sort = ViewBag.D_C_SortParm })
+                    @Html.ActionLink("destination_country", "OrderUserFlights", new { sort = ViewBag.D_C_SortParm , username = @ViewBag.username})
                 </th>
                 <th>
-                    @Html.ActionLink("origin_country", "OrderUserFlights", new { sort = ViewBag.O_C_SortParm })
+                    @Html.ActionLink("origin_country", "OrderUserFlights", new { sort = ViewBag.O_C_SortParm, username = @ViewBag.username })
                 </th>
                 <th>
-                    @Html.ActionLink("date_time", "OrderUserFlights", new { sort = ViewBag.DateSortParm })
+                    @Html.ActionLink("date_time", "OrderUserFlights", new { sort = ViewBag.DateSortParm, username = @ViewBag.username })
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.num_of_seats)
