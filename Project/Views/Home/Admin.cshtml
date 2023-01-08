@@ -11,18 +11,20 @@
     <meta name="viewport" content="width=device-width" />
     <title>@Model.username</title>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="nofollow" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+
     <script>
         function resizeIframe(obj) {
             obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
         }
     </script>
 
-    <style>
+    @*<style>
         a {
             text-decoration: none;
             color: blue;
         }
-    </style>
+    </style>*@
 
 </head>
 <body>
@@ -31,9 +33,9 @@
         <center>
 
             <h1>Admin Dashboard</h1>
-            <p style="text-align:left;">
+            <p style="text-align: left; padding-left: 10px">
                 <td><left>Hello @Model.username</left></td>
-                <span style="float:right;">
+                <span style="float: right; padding-right: 10px">
                     <td><right><a href="/">Logout</a></right></td>
                 </span>
             </p>
