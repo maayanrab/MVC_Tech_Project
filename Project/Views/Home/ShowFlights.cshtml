@@ -78,8 +78,10 @@
                         @Html.DisplayFor(modelItem => item.num_of_seats)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "EditFlights", new { id = item.flight_num }, new { flight_num = ViewBag.flight }) |
-                        @Html.ActionLink("Remove", "RemoveFlights", new { id = item.flight_num }, new { flight_num = ViewBag.flight })
+                        @*@Html.ActionLink("Edit", "EditFlights", new { id = item.flight_num }, new { flight_num = ViewBag.flight }) |*@
+                        @Html.ActionLink("Edit", "EditFlights", new { id = item.flight_num, flight_num = ViewBag.flight }, new { style = "text-decoration:none; color:blue;" }) |
+                        @*@Html.ActionLink("Remove", "RemoveFlights", new { id = item.flight_num }, new { flight_num = ViewBag.flight })*@
+                        @Html.ActionLink("Remove", "RemoveFlights", new { id = item.flight_num, flight_num = ViewBag.flight }, new { style = "text-decoration:none; color:blue;" })
                     </td>
                 </tr>
             }
