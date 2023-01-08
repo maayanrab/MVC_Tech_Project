@@ -10,33 +10,50 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>showflights</title>
+
+    <style>
+        tr:nth-child(even) {
+            background-color: #dfebf6;
+        }
+
+        td {
+            text-align: center;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+    </style>
+
 </head>
 <body>
 
     <center>
         <h1>Show Flights</h1>
 
-        <table class="table" border="1">
-            <tr>
+        <table class="table" border="0">
+            <tr style="background-color: #669dd2">
                 <th>
-                    @Html.DisplayNameFor(model => model.flight_num)
+                    @*@Html.DisplayNameFor(model => model.flight_num)*@
+                    <text style="color:white">Flight Number</text>
                 </th>
                 <th>
-                    @Html.ActionLink("price", "OrderAdminFlights", new { sort = ViewBag.PriceSortParm })
+                    @Html.ActionLink("Price", "OrderAdminFlights", new { sort = ViewBag.PriceSortParm }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
-                    @Html.ActionLink("destination_country", "OrderAdminFlights", new { sort = ViewBag.D_C_SortParm })
+                    @Html.ActionLink("Destination Country", "OrderAdminFlights", new { sort = ViewBag.D_C_SortParm }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
-                    @Html.ActionLink("origin_country", "OrderAdminFlights", new { sort = ViewBag.O_C_SortParm })
+                    @Html.ActionLink("Origin Country", "OrderAdminFlights", new { sort = ViewBag.O_C_SortParm }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
-                    @Html.ActionLink("date_time", "OrderAdminFlights", new { sort = ViewBag.DateSortParm })
+                    @Html.ActionLink("Date Time", "OrderAdminFlights", new { sort = ViewBag.DateSortParm }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.num_of_seats)
+                    @*@Html.DisplayNameFor(model => model.num_of_seats)*@
+                    <text style="color:white">Number of Seats</text>
                 </th>
-                <th></th>
+                <th>
+                    <text style="color:white">Change</text>
+                </th>
             </tr>
 
             @foreach (var item in Model)

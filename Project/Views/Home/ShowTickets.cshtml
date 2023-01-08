@@ -9,20 +9,35 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>myflights</title>
+    <title>mytickets</title>
+
+    <style>
+        tr:nth-child(even) {
+            background-color: #dfebf6;
+        }
+
+        td {
+            text-align: center;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+    </style>
+
 </head>
 <body>
 
     <center>
-        <h1>My Flights</h1>
+        <h1>My Tickets</h1>
 
-        <table class="table" border="1">
-            <tr>
+        <table class="table" border="0">
+            <tr style="background-color: #669dd2">
                 <th>
-                    @Html.DisplayNameFor(model => model.flight_num)
+                    @*@Html.DisplayNameFor(model => model.flight_num)*@
+                    <text style="color:white">Flight Number</text>
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.num_of_tickets)
+                    @*@Html.DisplayNameFor(model => model.num_of_tickets)*@
+                    <text style="color:white">Number of Tickets</text>
                 </th>
             </tr>
 

@@ -10,33 +10,49 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>showflights</title>
+
+    <style>
+        tr:nth-child(even) {
+            background-color: #dfebf6;
+        }
+        td {
+            text-align: center;
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+    </style>
+
 </head>
 <body>
 
     <center>
         <h1>Show Flights</h1>
         @*@ViewBag.username*@
-        <table class="table" border="1">
-            <tr>
+        <table class="table" border="0">
+            <tr style="background-color: #669dd2">
                 <th>
-                    @Html.DisplayNameFor(model => model.flight_num)
+                    @*@Html.DisplayNameFor(model => model.flight_num)*@
+                    <text style="color:white">Flight Number</text>
                 </th>
                 <th>
-                    @Html.ActionLink("price", "OrderUserFlights", new { sort = ViewBag.PriceSortParm, username = @ViewBag.username })
+                    @Html.ActionLink("Price", "OrderUserFlights", new { sort = ViewBag.PriceSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
-                    @Html.ActionLink("destination_country", "OrderUserFlights", new { sort = ViewBag.D_C_SortParm , username = @ViewBag.username})
+                    @Html.ActionLink("Destination Country", "OrderUserFlights", new { sort = ViewBag.D_C_SortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
-                    @Html.ActionLink("origin_country", "OrderUserFlights", new { sort = ViewBag.O_C_SortParm, username = @ViewBag.username })
+                    @Html.ActionLink("Origin Country", "OrderUserFlights", new { sort = ViewBag.O_C_SortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
-                    @Html.ActionLink("date_time", "OrderUserFlights", new { sort = ViewBag.DateSortParm, username = @ViewBag.username })
+                    @Html.ActionLink("Date Time", "OrderUserFlights", new { sort = ViewBag.DateSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.num_of_seats)
+                    @*@Html.DisplayNameFor(model => model.num_of_seats)*@
+                    <text style="color:white">Number of Seats</text>
                 </th>
-                <th></th>
+                <th>
+                    <text style="color:white">Booking</text>
+                </th>
             </tr>
 
             @foreach (var item in Model)
