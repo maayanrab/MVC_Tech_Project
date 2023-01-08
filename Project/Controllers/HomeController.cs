@@ -38,11 +38,6 @@ namespace Project.Controllers
 
         }
 
-        public ActionResult ReturnShowFlights()
-        {
-            return View();
-        }
-
         public ActionResult Register()
         {
             return View();
@@ -105,7 +100,7 @@ namespace Project.Controllers
                 dal.Flights.Add(flight);
                 dal.SaveChanges();
 
-                return View("ReturnShowFlights");
+                return View("ShowFlights", dal.Flights.ToList());
             }
             catch
             {
@@ -125,7 +120,7 @@ namespace Project.Controllers
             {
                 dal.Flights.Remove(cur_flight);
                 dal.SaveChanges();
-                return View("ReturnShowFlights");
+                return View("ShowFlights", dal.Flights.ToList());
             }
 
             String errormsg = "Flight was not found";
@@ -192,7 +187,7 @@ namespace Project.Controllers
 
             dal.SaveChanges();
 
-            return View("ReturnShowFlights");
+            return View("ShowFlights", dal.Flights.ToList());
 
         }
 
@@ -270,17 +265,30 @@ namespace Project.Controllers
             
 
         }
+
         public ActionResult SearchFlights()
         {
             return View();
         }
 
-        public ActionResult ShowFlight(String sort)
+        public ActionResult OrderAdminFlights(String sort)
+        {
+            return View("ShowFlights", OrderFlights(sort));
+        }
+
+        public ActionResult OrderUserFlights(String sort)
+        {
+            return View("ShowFlightsUser", OrderFlights(sort));
+        }
+
+        public List<Flight> OrderFlights(String sort)
         {
             FlightDal entities = new FlightDal();
 
             ViewBag.PriceSortParm = sort == "price_inc" ? "price_desc" : "price_inc";
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sort) ? "country" : "";
+            ViewBag.D_C_SortParm = sort == "D_C_a" ? "D_C_d" : "D_C_a";
+            ViewBag.O_C_SortParm = sort == "O_C_a" ? "O_C_d" : "O_C_a";
+            ViewBag.DateSortParm = sort == "date_a" ? "date_d" : "date_a";
             // ViewBag.PopSortParm = String.IsNullOrEmpty(sort) ? "popularity" : "";
 
 
@@ -294,18 +302,32 @@ namespace Project.Controllers
                 case "price_desc":
                     ent = ent.OrderByDescending(f => f.price);
                     break;
+                case "D_C_a":
+                    ent = ent.OrderBy(f => f.destination_country);
+                    break;
+                case "D_C_d":
+                    ent = ent.OrderByDescending(f => f.destination_country);
+                    break;
+                case "O_C_a":
+                    ent = ent.OrderBy(f => f.origin_country);
+                    break;
+                case "O_C_d":
+                    ent = ent.OrderByDescending(f => f.origin_country);
+                    break;
                 //case "popularity":
                 //    ent = ent.OrderByDescending(f => f.EnrollmentDate);
                 //    break;
-
-                case "country":
-                    ent = ent.OrderBy(f => f.origin_country);
+                case "date_a":
+                    ent = ent.OrderBy(f => f.date_time);
                     break;
-
-
-
+                case "date_d":
+                    ent = ent.OrderByDescending(f => f.date_time);
+                    break;
+                default:
+                    ent = ent.OrderBy(f => f.flight_num);
+                    break;
             }
-            return View("ShowFlights", ent.ToList());
+            return ent.ToList();
         }
 
         public ActionResult BookFlights(string username, int id = -1)

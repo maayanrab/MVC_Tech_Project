@@ -22,18 +22,16 @@
                     @Html.DisplayNameFor(model => model.flight_num)
                 </th>
                 <th>
-                    @*@Html.DisplayNameFor(model => model.price)*@
-                    @Html.ActionLink("price", "ShowFlight", new { sort = ViewBag.PriceSortParm })
+                    @Html.ActionLink("price", "OrderAdminFlights", new { sort = ViewBag.PriceSortParm })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.destination_country)
+                    @Html.ActionLink("destination_country", "OrderAdminFlights", new { sort = ViewBag.D_C_SortParm })
                 </th>
                 <th>
-                    @*@Html.DisplayNameFor(model => model.origin_country)*@
-                    @Html.ActionLink("origin_country", "ShowFlight", new { sort = ViewBag.NameSortParm })
+                    @Html.ActionLink("origin_country", "OrderAdminFlights", new { sort = ViewBag.O_C_SortParm })
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.date_time)
+                    @Html.ActionLink("date_time", "OrderAdminFlights", new { sort = ViewBag.DateSortParm })
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.num_of_seats)

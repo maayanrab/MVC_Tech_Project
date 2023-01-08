@@ -178,7 +178,6 @@
     <Content Include="Views\Home\RemoveFlights.cshtml" />
     <Content Include="Views\Home\EditFlights.cshtml" />
     <Content Include="Views\Home\ShowFlights.cshtml" />
-    <Content Include="Views\Home\ReturnShowFlights.cshtml" />
     <Content Include="Views\Home\SearchFlights.cshtml" />
     <Content Include="Views\Home\ShowFlightsUser.cshtml" />
     <Content Include="Views\Home\BookFlights.cshtml" />
