@@ -30,11 +30,18 @@ namespace Project.Controllers
 
         public ActionResult ShowFlightsUser(string username)
         {
+            FlightDal entities = new FlightDal();
+
+            List<Flight> flightLst = new List<Flight>();
+
+            foreach (Flight f in entities.Flights.ToList())
+            {
+                if (f.date_time >= DateTime.Now)
+                    flightLst.Add(f);
+            }
             ViewBag.username = username;
 
-            var entities = new FlightDal();
-
-            return View(entities.Flights.ToList());
+            return View(flightLst);
 
         }
 
@@ -257,13 +264,14 @@ namespace Project.Controllers
                     if (date != "" && f.date_time != flight.date_time)
                         continue;
 
-                    flightLst.Add(f);
+
+                    if (f.date_time >= DateTime.Now)
+                        flightLst.Add(f);
 
                 }
                 
                 return View("ShowFlightsUser", flightLst);
             
-
         }
 
         public ActionResult SearchFlights()
@@ -346,14 +354,23 @@ namespace Project.Controllers
             Flight flight;
             try
             {
-                ticket.username = username;
-                ticketdal.Tickets.Add(ticket);
-                ticketdal.SaveChanges();
                 flight = flightdal.Flights.Find(ticket.flight_num);
-                flight.num_of_seats -= ticket.num_of_tickets;
-                flightdal.SaveChanges();
+                if (flight.num_of_seats - ticket.num_of_tickets > 0)
+                {
+                    ticket.username = username;
+                    ticketdal.Tickets.Add(ticket);
+                    ticketdal.SaveChanges();
+                    
+                    flight.num_of_seats -= ticket.num_of_tickets;
+                    flightdal.SaveChanges();
 
-                return Redirect(String.Format("/Home/ShowTickets/{0}", username));
+                    return Redirect(String.Format("/Home/ShowTickets/{0}", username));
+                }
+                else
+                {
+                    ViewBag.Message = "Error:\n not enough remaining tickets";
+                    return View("ShowFlightsUser", flightdal.Flights.ToList());
+                }
             }
             catch
             {
