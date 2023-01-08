@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Xml.Linq;
 using Microsoft.Ajax.Utilities;
 using System.Diagnostics;
+using System.Data.Entity;
 
 namespace Project.Controllers
 {
@@ -357,9 +358,18 @@ namespace Project.Controllers
                 flight = flightdal.Flights.Find(ticket.flight_num);
                 if (flight.num_of_seats - ticket.num_of_tickets > 0)
                 {
-                    ticket.username = username;
-                    ticketdal.Tickets.Add(ticket);
-                    ticketdal.SaveChanges();
+                    Ticket t = ticketdal.Tickets.Where(i => i.username == username && i.flight_num == ticket.flight_num).FirstOrDefault();
+                    if (t == null)  // first time buying a ticket for this flight
+                    {
+                        ticket.username = username;
+                        ticketdal.Tickets.Add(ticket);
+                        ticketdal.SaveChanges();
+                    }
+                    else  // ticket for the flight already exists
+                    {
+                        t.num_of_tickets += ticket.num_of_tickets;
+                        ticketdal.SaveChanges();
+                    }
                     
                     flight.num_of_seats -= ticket.num_of_tickets;
                     flightdal.SaveChanges();
@@ -375,7 +385,8 @@ namespace Project.Controllers
             catch
             {
                 ViewBag.Message = "Error:\nForm is invalid";
-                return View("BookFlights");
+                return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+                /*return View("BookFlights");*/
             }
 
         }
