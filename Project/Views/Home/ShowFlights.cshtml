@@ -50,7 +50,7 @@
                     <text style="color:white">Flight Number</text>
                 </th>
                 <th>
-                    @Html.ActionLink("Price", "OrderAdminFlights", new { sort = ViewBag.PriceSortParm }, new { style = "text-decoration:none; color:white;" })
+                    @Html.ActionLink("Price ($)", "OrderAdminFlights", new { sort = ViewBag.PriceSortParm }, new { style = "text-decoration:none; color:white;" })
                 </th>
                 <th>
                     @Html.ActionLink("Destination Country", "OrderAdminFlights", new { sort = ViewBag.D_C_SortParm }, new { style = "text-decoration:none; color:white;" })
@@ -63,7 +63,7 @@
                 </th>
                 <th>
                     @*@Html.DisplayNameFor(model => model.num_of_seats)*@
-                    <text style="color:white">Number of Seats</text>
+                    <text style="color:white">Available Seats</text>
                 </th>
                 <th>
                     <text style="color:white">Change</text>
