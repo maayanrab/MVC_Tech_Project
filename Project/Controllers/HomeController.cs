@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using Microsoft.Ajax.Utilities;
 using System.Diagnostics;
 using System.Data.Entity;
+using System.Text.RegularExpressions;
 
 namespace Project.Controllers
 {
@@ -137,7 +138,7 @@ namespace Project.Controllers
             }
             catch
             {
-                ViewBag.Message = "Error:\nForm is invalid,\nplease make sure date is in format: d/M/yyyy HH:mm";
+                ViewBag.Message = "Error: Form is invalid, please make sure date is in format: d/M/yyyy HH:mm";
                 return View("AddFlights");
             }
 
@@ -197,7 +198,7 @@ namespace Project.Controllers
                 }
                 catch
                 {
-                    ViewBag.Message = "Error: date format is invalid.\nCorrect format is: d/M/yyyy HH:mm";
+                    ViewBag.Message = "Error: date format is invalid. Correct format is: d/M/yyyy HH:mm";
                     return View("EditFlights");
                 }
             }
@@ -267,7 +268,9 @@ namespace Project.Controllers
                 }
                 catch
                 {
-                    ViewBag.Message = "Error: date format is invalid.\nCorrect format is: d/M/yyyy HH:mm";
+                    String errormsg = "Error: date format is invalid. Correct format is: d/M/yyyy HH:mm";
+                    ViewBag.Message = errormsg;
+
                     return View("SearchFlights");
                 }
             
@@ -369,10 +372,32 @@ namespace Project.Controllers
             return ent.ToList();
         }
 
+        bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
+        }
+
         public ActionResult BookFlights(string username, int id = -1)
         {
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+                TempData["Message"] = null;
+            }
             ViewBag.username = username;
             ViewBag.flight_num = id;
+
+            FlightDal flightdal = new FlightDal();
+            Flight f = flightdal.Flights.Where(i => i.flight_num == id).FirstOrDefault();
+
+            ViewBag.price = f.price;
+
             return View("BookFlights");
         }
 
@@ -395,9 +420,36 @@ namespace Project.Controllers
                     // Proccessing payment:  @@@ CHECK VALIDATION
 
                     string credit_num = Request.Form["credit_num"];
+                    if (!IsDigitsOnly(credit_num)) {
+                        ViewBag.Message = "Error: credit card must contain digits only!";
+                        TempData["Message"] = ViewBag.Message;
+                        return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+                    }
+
                     string cvc = Request.Form["cvc"];
+                    if (!IsDigitsOnly(cvc))
+                    {
+                        ViewBag.Message = "Error: CVC must contain digits only!";
+                        TempData["Message"] = ViewBag.Message;
+                        return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+                    }
+
                     string full_name = Request.Form["full_name"];
+                    if (!(Regex.IsMatch(full_name, @"^[a-zA-Z]+$")))
+                    {
+                        ViewBag.Message = "Error: Full name must contain letters only!";
+                        TempData["Message"] = ViewBag.Message;
+                        return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+                    }
+
+
                     string ID = Request.Form["ID"];
+                    if (!IsDigitsOnly(ID))
+                    {
+                        ViewBag.Message = "Error: ID must contain digits only!";
+                        TempData["Message"] = ViewBag.Message;
+                        return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+                    }
 
                     CreditCard c = creditcarddal.CreditCards.Where(i => i.credit_num == credit_num).FirstOrDefault();
                     if (c == null)  // first time paying with this card
@@ -439,15 +491,16 @@ namespace Project.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Error:\n not enough remaining tickets";
+                    ViewBag.Message = "Error: not enough remaining tickets";
+                    TempData["Message"] = ViewBag.Message;
                     return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
                 }
             }
             catch
             {
-                ViewBag.Message = "Error:\nForm is invalid";
+                ViewBag.Message = "Error: Form is invalid";
+                TempData["Message"] = ViewBag.Message;
                 return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
-                /*return View("BookFlights");*/
             }
 
         }

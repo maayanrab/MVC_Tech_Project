@@ -43,6 +43,7 @@
 </head>
 
 <body>
+
     @if (ViewBag.flight_num == -1)
     {
         ViewBag.flight_num = "";
@@ -73,9 +74,13 @@
                 </tr>
             </table>
 
+            <p>
+                Price <b>per</b> ticket: @ViewBag.price$
+            </p>
+
             @* ------------------------  Credit Card Details:  ------------------------ *@
 
-            <br /><br />
+            <br />
             <p>
                 Please enter your <u>credit card</u> details below:
             </p>
