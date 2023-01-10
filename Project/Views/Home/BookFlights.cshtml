@@ -70,13 +70,25 @@
                 </tr>
                 <tr>
                     <td><strong>Number of Tickets:</strong></td>
-                    <td> @Html.TextBoxFor(ticket => ticket.num_of_tickets) @Html.ValidationMessageFor(ticket => ticket.num_of_tickets)</td>
+                    <td> @Html.TextBoxFor(ticket => ticket.num_of_tickets, new { @id = "textbox", @oninput = "updateLabel()" }) @Html.ValidationMessageFor(ticket => ticket.num_of_tickets)</td>
                 </tr>
+
             </table>
 
             <p>
                 Price <b>per</b> ticket: @ViewBag.price$
             </p>
+
+            <center><label for="textbox">Total Price: 0$</label></center>
+
+            <script>
+                function updateLabel() {
+                    var textbox = document.getElementById("textbox");
+                    var label = document.querySelector("label[for='textbox']");
+                    label.textContent = "Total Price: " + textbox.value*@ViewBag.price + "$";
+                }
+            </script>
+
 
             @* ------------------------  Credit Card Details:  ------------------------ *@
 
@@ -128,8 +140,8 @@
             window.onload = function () {
                 alert("@ViewBag.Message");
             };
-        </script>
-    }
+    </script>
+}
 
 </body>
 </html>
