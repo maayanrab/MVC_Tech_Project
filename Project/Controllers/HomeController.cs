@@ -361,12 +361,44 @@ namespace Project.Controllers
 
             TicketDal ticketdal = new TicketDal();
             FlightDal flightdal = new FlightDal();
+            CreditCardDal creditcarddal = new CreditCardDal();
             Flight flight;
             try
             {
                 flight = flightdal.Flights.Find(ticket.flight_num);
+
+                float totalPrice = flight.price * ticket.num_of_tickets;
+
                 if (flight.num_of_seats - ticket.num_of_tickets > 0)
                 {
+
+                    // Proccessing payment:
+
+                    string credit_num = Request.Form["credit_num"];
+                    string cvc = Request.Form["cvc"];
+                    string full_name = Request.Form["full_name"];
+                    string ID = Request.Form["ID"];
+
+                    CreditCard c = creditcarddal.CreditCards.Where(i => i.credit_num == credit_num).FirstOrDefault();
+                    if (c == null)  // first time paying with this card
+                    {
+                        CreditCard creditcard = new CreditCard();
+                        creditcard.credit_num = credit_num;
+                        creditcard.cvc = cvc;
+                        creditcard.full_name = full_name;
+                        creditcard.payer_id = ID;
+                        creditcard.balance -= totalPrice;  // @@@ TO BE EDITED FOR THE EXACT PRICE
+                        creditcarddal.CreditCards.Add(creditcard);
+                        creditcarddal.SaveChanges();
+                    }
+                    else
+                    {
+                        c.balance -= totalPrice;
+                        creditcarddal.SaveChanges();
+                    }
+
+                    // Removing tickets from database
+
                     Ticket t = ticketdal.Tickets.Where(i => i.username == username && i.flight_num == ticket.flight_num).FirstOrDefault();
                     if (t == null)  // first time buying a ticket for this flight
                     {

@@ -34,6 +34,10 @@
         body {
             background: rgb(255, 255, 255, 0.3)
         }
+
+        p {
+            text-align: center;
+        }
     </style>
 
 </head>
@@ -54,7 +58,7 @@
         {
             <table class="center">
 
-                
+
 
                 <tr>
                     <td><strong>Flight Number:</strong></td>
@@ -66,7 +70,40 @@
                 <tr>
                     <td><strong>Number of Tickets:</strong></td>
                     <td> @Html.TextBoxFor(ticket => ticket.num_of_tickets) @Html.ValidationMessageFor(ticket => ticket.num_of_tickets)</td>
+                </tr>
+            </table>
 
+            @* ------------------------  Credit Card Details:  ------------------------ *@
+
+            <br /><br />
+            <p>
+                Please enter your <u>credit card</u> details below:
+            </p>
+
+            <table class="center">
+                <tr>
+                    <td><strong>Credit Card Number:</strong></td>
+                    <td>
+                        <input type="text" name="credit_num" id="credit_num" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>CVC:</strong></td>
+                    <td>
+                        <input type="password" name="cvc" id="cvc" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Full Name:</strong></td>
+                    <td>
+                        <input type="text" name="full_name" id="full_name" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>ID Number:</strong></td>
+                    <td>
+                        <input type="text" name="ID" id="ID" />
+                    </td>
                 </tr>
             </table>
 
