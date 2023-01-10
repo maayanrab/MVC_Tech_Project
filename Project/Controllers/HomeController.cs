@@ -11,6 +11,7 @@ using Microsoft.Ajax.Utilities;
 using System.Diagnostics;
 using System.Data.Entity;
 using System.Text.RegularExpressions;
+using System.Net.Sockets;
 
 namespace Project.Controllers
 {
@@ -383,6 +384,22 @@ namespace Project.Controllers
             return true;
         }
 
+        bool IsLettersOnly(string str)
+        {
+            bool res = false;
+            foreach (char c in str)
+            {
+                if (c >= 'A' && c <= 'z')
+                    res = true;
+                if (c == ' ')
+                    continue;
+                if (c < 'A' || c > 'z')
+                    return false;
+            }
+
+            return res;
+        }
+
         public ActionResult BookFlights(string username, int id = -1)
         {
             if (TempData["Message"] != null)
@@ -442,7 +459,7 @@ namespace Project.Controllers
                     }
 
                     string full_name = Request.Form["full_name"];
-                    if (!(Regex.IsMatch(full_name, @"^[a-zA-Z]+$")))
+                    if (!IsLettersOnly(full_name))
                     {
                         ViewBag.Message = "Error: Full name must contain letters only!";
                         TempData["Message"] = ViewBag.Message;
@@ -494,7 +511,15 @@ namespace Project.Controllers
                     flight.num_of_seats -= ticket.num_of_tickets;
                     flightdal.SaveChanges();
 
-                    return Redirect(String.Format("/Home/ShowTickets/{0}", username));
+                    // Payment successful  $$$
+                    TempData["flight_num"] = flight.flight_num;
+                    TempData["destination_country"] = flight.destination_country;
+                    TempData["origin_country"] = flight.origin_country;
+                    TempData["date_time"] = flight.date_time;
+                    TempData["num_of_tickets"] = ticket.num_of_tickets;
+                    TempData["price"] = ticket.num_of_tickets * flight.price;
+
+                    return Redirect("/Home/PaymentSuccessful/");
                 }
                 else
                 {
@@ -529,6 +554,29 @@ namespace Project.Controllers
 
             return View(ticketLst);
 
+        }
+
+        public ActionResult PaymentSuccessful()  // $$$
+        {
+            ViewBag.flight_num = TempData["flight_num"];
+            TempData["flight_num"] = null;
+
+            ViewBag.destination_country = TempData["destination_country"];
+            TempData["destination_country"] = null;
+
+            ViewBag.origin_country = TempData["origin_country"];
+            TempData["origin_country"] = null;
+
+            ViewBag.date_time = TempData["date_time"];
+            TempData["date_time"] = null;
+
+            ViewBag.num_of_tickets = TempData["num_of_tickets"];
+            TempData["num_of_tickets"] = null;
+
+            ViewBag.price = TempData["price"];
+            TempData["price"] = null;
+
+            return View();
         }
 
         public Dictionary<string, float> Popularity()

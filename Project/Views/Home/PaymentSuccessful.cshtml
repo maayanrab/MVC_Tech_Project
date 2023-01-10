@@ -1,0 +1,111 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PaymentSuccessful</title>
+
+    <style>
+        div {
+            text-align: center;
+        }
+        body {
+            background: rgb(255, 255, 255, 0.3);
+        }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        
+
+    </style>
+
+</head>
+<body>
+    <div>
+        <h1>Thank you!</h1>
+        Payment successful. You can view your tickets at any time in the "Tickets" section.
+        <br /><br />
+    </div>
+    <div style="background: rgb(255, 255, 255, 0.7);" id="printableArea">
+        <h2>Summary:</h2>
+        <table class="center">
+            <tr>
+                <td>
+                    Flight Number:
+                </td>
+                <td>
+                    @ViewBag.flight_num
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Destination:
+                </td>
+                <td>
+                    @ViewBag.destination_country
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Origin:
+                </td>
+                <td>
+                    @ViewBag.origin_country
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Date and Time:
+                </td>
+                <td>
+                    @ViewBag.date_time
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Number of Tickets:
+                </td>
+                <td>
+                    @ViewBag.num_of_tickets
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Total price:
+                </td>
+                <td>
+                    @ViewBag.price
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+    <center>
+        @*<button onclick="window.print()">Print</button>*@
+        <input type="button" onclick="printDiv('printableArea')" value="Print Summary" />
+    </center>
+
+    <script>
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+
+</body>
+</html>
