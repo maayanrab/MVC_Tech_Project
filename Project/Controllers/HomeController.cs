@@ -404,6 +404,13 @@ namespace Project.Controllers
         public ActionResult BookFlight(Ticket ticket, string username)
         {
 
+            if (ticket.num_of_tickets <= 0)
+            {
+                ViewBag.Message = "Error: number of tickets must be positive!";
+                TempData["Message"] = ViewBag.Message;
+                return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+            }
+
             TicketDal ticketdal = new TicketDal();
             FlightDal flightdal = new FlightDal();
             CreditCardDal creditcarddal = new CreditCardDal();
