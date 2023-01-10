@@ -29,17 +29,33 @@ namespace Project.Controllers
 
         }
 
-        public ActionResult ShowFlightsUser(string username)
-        {
-            FlightDal entities = new FlightDal();
+        public List<Flight> updateFlights() {
+            FlightDal flightdal = new FlightDal();
+
+            // UPDATE POPULARITY
+            Dictionary<string, float> popdict = Popularity();
+            foreach (Flight f in flightdal.Flights.ToList())
+            {
+                f.popularity = popdict[f.destination_country];
+            }
+            flightdal.SaveChanges();
+
 
             List<Flight> flightLst = new List<Flight>();
 
-            foreach (Flight f in entities.Flights.ToList())
+            // FILTERING PAST FLIGHTS
+            foreach (Flight f in flightdal.Flights.ToList())
             {
-                if (f.date_time >= DateTime.Now)
+                if (f.date_time >= DateTime.Now && f.num_of_seats > 0)
                     flightLst.Add(f);
             }
+            return flightLst;
+        }
+
+        public ActionResult ShowFlightsUser(string username)
+        {
+            
+            List<Flight> flightLst = updateFlights();
             ViewBag.username = username;
 
             return View(flightLst);
@@ -308,10 +324,11 @@ namespace Project.Controllers
             ViewBag.D_C_SortParm = sort == "D_C_a" ? "D_C_d" : "D_C_a";
             ViewBag.O_C_SortParm = sort == "O_C_a" ? "O_C_d" : "O_C_a";
             ViewBag.DateSortParm = sort == "date_a" ? "date_d" : "date_a";
-            // ViewBag.PopSortParm = String.IsNullOrEmpty(sort) ? "popularity" : "";
+            ViewBag.PopSortParm = sort == "pop_d" ? "pop_a" : "pop_d";
 
 
-            var ent = from f in entities.Flights
+            /*var ent = from f in entities.Flights*/
+            var ent = from f in updateFlights()
                       select f;
             switch (sort)
             {
@@ -333,14 +350,17 @@ namespace Project.Controllers
                 case "O_C_d":
                     ent = ent.OrderByDescending(f => f.origin_country);
                     break;
-                //case "popularity":
-                //    ent = ent.OrderByDescending(f => f.EnrollmentDate);
-                //    break;
                 case "date_a":
                     ent = ent.OrderBy(f => f.date_time);
                     break;
                 case "date_d":
                     ent = ent.OrderByDescending(f => f.date_time);
+                    break;
+                case "pop_a":
+                    ent = ent.OrderBy(f => f.popularity);
+                    break;
+                case "pop_d":
+                    ent = ent.OrderByDescending(f => f.popularity);
                     break;
                 default:
                     ent = ent.OrderBy(f => f.flight_num);
@@ -369,10 +389,10 @@ namespace Project.Controllers
 
                 float totalPrice = flight.price * ticket.num_of_tickets;
 
-                if (flight.num_of_seats - ticket.num_of_tickets > 0)
+                if (flight.num_of_seats - ticket.num_of_tickets >= 0)
                 {
 
-                    // Proccessing payment:
+                    // Proccessing payment:  @@@ CHECK VALIDATION
 
                     string credit_num = Request.Form["credit_num"];
                     string cvc = Request.Form["cvc"];
@@ -383,11 +403,11 @@ namespace Project.Controllers
                     if (c == null)  // first time paying with this card
                     {
                         CreditCard creditcard = new CreditCard();
-                        creditcard.credit_num = credit_num;
+                        creditcard.credit_num = credit_num;  // ADD AES @@@ BONUS!!!
                         creditcard.cvc = cvc;
                         creditcard.full_name = full_name;
                         creditcard.payer_id = ID;
-                        creditcard.balance -= totalPrice;  // @@@ TO BE EDITED FOR THE EXACT PRICE
+                        creditcard.balance -= totalPrice;
                         creditcarddal.CreditCards.Add(creditcard);
                         creditcarddal.SaveChanges();
                     }
@@ -451,7 +471,40 @@ namespace Project.Controllers
 
         }
 
+        public Dictionary<string, float> Popularity()
+        {
+            TicketDal ticketdal = new TicketDal();
+            FlightDal flightdal = new FlightDal();
+            Flight flight;
+            Dictionary<string, float> popdict = new Dictionary<string, float>();
+            Dictionary<string, float> temp = new Dictionary<string, float>();
 
+            if (ViewBag.dict == null)
+            {
+                foreach (Flight f in flightdal.Flights.ToList())
+                {
+                    try
+                    {
+                        temp.Add(f.destination_country, 0);
+                        popdict.Add(f.destination_country, 0);
+                    }
+                    catch { }
+                    popdict[f.destination_country] += f.num_of_seats;
+                }
+            }
+
+            foreach (Ticket t in ticketdal.Tickets.ToList())
+            {
+                flight = flightdal.Flights.Find(t.flight_num);
+                popdict[flight.destination_country] += t.num_of_tickets;
+                temp[flight.destination_country] += t.num_of_tickets;
+            }
+
+            foreach (string s in popdict.Keys)
+                temp[s] /= popdict[s];
+
+            return temp;
+        }
 
 
 

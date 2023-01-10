@@ -13,6 +13,7 @@ namespace Project.Models
         [Required(ErrorMessage = "Credit card number is required")]
         public string credit_num { get; set; }
 
+        [Required(ErrorMessage = "CVC number is required")]
         public string cvc { get; set; }
 
         [Required(ErrorMessage = "Full name is required")]

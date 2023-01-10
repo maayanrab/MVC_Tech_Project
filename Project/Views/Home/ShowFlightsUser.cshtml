@@ -66,6 +66,9 @@
                     <text style="color:white">Number of Seats</text>
                 </th>
                 <th>
+                    @Html.ActionLink("Popularity", "OrderUserFlights", new { sort = ViewBag.PopSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
+                </th>
+                <th>
                     <text style="color:white">Booking</text>
                 </th>
             </tr>
@@ -92,16 +95,15 @@
                         @Html.DisplayFor(modelItem => item.num_of_seats)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.popularity)
+                    </td>
+                    <td>
                         @Html.ActionLink("Book Flight", "BookFlights", new { id = item.flight_num, username = @ViewBag.username })
                     </td>
                 </tr>
             }
 
         </table>
-
-        @*<p>
-            @Html.ActionLink("Create New", "AddFlights")
-        </p>*@
 
     </center>
 </body>

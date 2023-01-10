@@ -22,11 +22,13 @@ namespace Project.Models
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Country must be between 2 and 50 characters")]
         [Required(ErrorMessage = "Origin country is required")]
         public string origin_country { get; set; }
-        
+
+        [Required(ErrorMessage = "Date and time are required")]
         public DateTime date_time { get; set; }
 
         [Required(ErrorMessage = "Number of seats is required")]
         public int num_of_seats { get; set; }
 
+        public float popularity { get; set; }
     }
 }
