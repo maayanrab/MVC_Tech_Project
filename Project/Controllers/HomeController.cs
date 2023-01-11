@@ -423,7 +423,7 @@ namespace Project.Controllers
 
             if (ticket.num_of_tickets <= 0)
             {
-                ViewBag.Message = "Error: number of tickets must be positive!";
+                ViewBag.Message = "Error: number of tickets must be a positive integer!";
                 TempData["Message"] = ViewBag.Message;
                 return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
             }
