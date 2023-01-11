@@ -58,19 +58,13 @@ namespace Project.Controllers
             return flightLst;
         }
 
-        public ActionResult ShowFlightsUser(string username, List<Flight> flightLs)
+        public ActionResult ShowFlightsUser(string username)
         {
-            if (flightLs.Count() == 0 && cur_fl.Count() == 0)
-                flightLs = updateFlights();
-            else {
-                if (flightLs.Count() == 0)
-                    flightLs = cur_fl;
-            }
             if (username == null)
                 username = global_username;
             ViewBag.username = username;
 
-            return View(flightLs);
+            return View(updateFlights());
 
         }
 
