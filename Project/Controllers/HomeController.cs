@@ -58,7 +58,7 @@ namespace Project.Controllers
             return flightLst;
         }
 
-        public ActionResult ShowFlightsUser(string username, List<Flight> flightLs)  // $$$
+        public ActionResult ShowFlightsUser(string username, List<Flight> flightLs)
         {
             if (flightLs.Count() == 0 && cur_fl.Count() == 0)
                 flightLs = updateFlights();
@@ -317,9 +317,9 @@ namespace Project.Controllers
                     flightLst.Add(f);
             }
 
-            /*return RedirectToAction("ShowFlightsUser", global_username, flightLst);  // $$$*/
             cur_fl = flightLst;
-            return RedirectToAction("ShowFlightsUser", new { username = global_username, flightLs = flightLst });
+            /*return RedirectToAction("ShowFlightsUser", new { username = global_username, flightLs = flightLst });*/
+            return RedirectToAction("OrderUserFlights", new { username = global_username });
 
         }
         
@@ -337,10 +337,10 @@ namespace Project.Controllers
         public ActionResult OrderUserFlights(String sort, String username)
         {
             ViewBag.username = username;
-            return View("ShowFlightsUser", OrderFlights(sort));
+            return View("ShowFlightsUser", OrderFlights(sort, cur_fl));
         }
 
-        public List<Flight> OrderFlights(String sort)
+        public List<Flight> OrderFlights(String sort, List<Flight> fl=null)
         {
             FlightDal entities = new FlightDal();
 
@@ -350,10 +350,19 @@ namespace Project.Controllers
             ViewBag.DateSortParm = sort == "date_a" ? "date_d" : "date_a";
             ViewBag.PopSortParm = sort == "pop_d" ? "pop_a" : "pop_d";
 
+            IEnumerable<Flight> ent;
 
             /*var ent = from f in entities.Flights*/
-            var ent = from f in updateFlights()
-                      select f;
+            if (fl == null)
+            {
+                ent = from f in updateFlights()
+                          select f;
+            }
+            else {
+                ent = from f in fl
+                          select f;
+            }
+
             switch (sort)
             {
                 case "price_inc":
