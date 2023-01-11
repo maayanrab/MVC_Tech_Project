@@ -445,11 +445,17 @@ namespace Project.Controllers
                 if (flight.num_of_seats - ticket.num_of_tickets >= 0)
                 {
 
-                    // Proccessing payment:  @@@ CHECK VALIDATION
+                    // Proccessing payment:
 
                     string credit_num = Request.Form["credit_num"];
                     if (!IsDigitsOnly(credit_num)) {
-                        ViewBag.Message = "Error: credit card must contain digits only!";
+                        ViewBag.Message = "Error: credit card number must contain digits only!";
+                        TempData["Message"] = ViewBag.Message;
+                        return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+                    }
+
+                    if (credit_num.Length != 16) {
+                        ViewBag.Message = "Error: credit card number must contain 16 digits!";
                         TempData["Message"] = ViewBag.Message;
                         return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
                     }
@@ -458,6 +464,13 @@ namespace Project.Controllers
                     if (!IsDigitsOnly(cvc))
                     {
                         ViewBag.Message = "Error: CVC must contain digits only!";
+                        TempData["Message"] = ViewBag.Message;
+                        return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+                    }
+
+                    if (cvc.Length != 3)
+                    {
+                        ViewBag.Message = "Error: CVC must contain 3 digits!";
                         TempData["Message"] = ViewBag.Message;
                         return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
                     }
@@ -475,6 +488,13 @@ namespace Project.Controllers
                     if (!IsDigitsOnly(ID))
                     {
                         ViewBag.Message = "Error: ID must contain digits only!";
+                        TempData["Message"] = ViewBag.Message;
+                        return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
+                    }
+
+                    if (ID.Length != 9)
+                    {
+                        ViewBag.Message = "Error: ID must contain 9 digits!";
                         TempData["Message"] = ViewBag.Message;
                         return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
                     }
