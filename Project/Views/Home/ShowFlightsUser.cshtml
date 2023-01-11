@@ -95,7 +95,9 @@
                         @Html.DisplayFor(modelItem => item.num_of_seats)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.popularity)
+                        @String.Format("{0:0.00}%", (@item.popularity * 100))
+                        @*@{@(@item.popularity * 100)}*@
+                        @*@Html.DisplayFor(modelItem => item.popularity)*@
                     </td>
                     <td>
                         @Html.ActionLink("Book Flight", "BookFlights", new { id = item.flight_num, username = @ViewBag.username })
