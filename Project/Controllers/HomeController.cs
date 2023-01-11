@@ -479,11 +479,19 @@ namespace Project.Controllers
                         return Redirect(String.Format("/Home/BookFlights/{0}/{1}", username, ticket.flight_num));
                     }
 
+                    // AES ENCRYPTION
+                    string key = ID+cvc;
+                    /*Debug.WriteLine(key);*/
+                    string encrypted = AESEncryption.Encrypt(credit_num, key);
+                    credit_num = encrypted;
+                    /*Debug.WriteLine(AESEncryption.Decrypt(credit_num, key));*/
+
                     CreditCard c = creditcarddal.CreditCards.Where(i => i.credit_num == credit_num).FirstOrDefault();
                     if (c == null)  // first time paying with this card
                     {
                         CreditCard creditcard = new CreditCard();
-                        creditcard.credit_num = credit_num;  // ADD AES @@@ BONUS!!!
+
+                        creditcard.credit_num = credit_num;
                         creditcard.cvc = cvc;
                         creditcard.full_name = full_name;
                         creditcard.payer_id = ID;
