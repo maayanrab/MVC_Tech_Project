@@ -19,6 +19,7 @@ namespace Project.Controllers
     {
 
         public static string global_username;
+        public static List<Flight> cur_fl;
 
         // GET: Home
         public ActionResult Index()
@@ -57,14 +58,19 @@ namespace Project.Controllers
             return flightLst;
         }
 
-        public ActionResult ShowFlightsUser(string username)
+        public ActionResult ShowFlightsUser(string username, List<Flight> flightLs)  // $$$
         {
-            List<Flight> flightLst = updateFlights();
+            if (flightLs.Count() == 0 && cur_fl.Count() == 0)
+                flightLs = updateFlights();
+            else {
+                if (flightLs.Count() == 0)
+                    flightLs = cur_fl;
+            }
             if (username == null)
                 username = global_username;
             ViewBag.username = username;
 
-            return View(flightLst);
+            return View(flightLs);
 
         }
 
@@ -309,10 +315,11 @@ namespace Project.Controllers
 
                 if (f.date_time >= DateTime.Now)
                     flightLst.Add(f);
-
             }
 
-            return RedirectToAction("ShowFlightsUser", (global_username, flightLst));
+            /*return RedirectToAction("ShowFlightsUser", global_username, flightLst);  // $$$*/
+            cur_fl = flightLst;
+            return RedirectToAction("ShowFlightsUser", new { username = global_username, flightLs = flightLst });
 
         }
         
