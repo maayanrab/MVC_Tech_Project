@@ -20,6 +20,12 @@ namespace Project
             );*/
 
             routes.MapRoute(
+                name: "SearchFlights",
+                url: "{controller}/SearchFlights/{username}/",
+                defaults: new { controller = "Home", action = "SearchFlights", username = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "ShowTickets",
                 url: "{controller}/ShowTickets/{username}/",
                 defaults: new { controller = "Home", action = "ShowTickets", username = UrlParameter.Optional }

@@ -17,6 +17,9 @@ namespace Project.Controllers
 {
     public class HomeController : Controller
     {
+
+        public static string global_username;
+
         // GET: Home
         public ActionResult Index()
         {
@@ -56,8 +59,9 @@ namespace Project.Controllers
 
         public ActionResult ShowFlightsUser(string username)
         {
-            
             List<Flight> flightLst = updateFlights();
+            if (username == null)
+                username = global_username;
             ViewBag.username = username;
 
             return View(flightLst);
@@ -240,7 +244,10 @@ namespace Project.Controllers
 
             var userexist = dal.Users.Any(x => x.username == user.username && x.password == user.password);
             if (userexist)
+            {
+                global_username = user.username;
                 return View("User", user);
+            }
             else
             {
                 String errormsg = "username or password are incorrect";
@@ -255,7 +262,6 @@ namespace Project.Controllers
         {
             FlightDal dal = new FlightDal();
             String price = Request.Form["Price"];
-            Debug.WriteLine(price);
             if (price != "")
                 flight.price = float.Parse(price, CultureInfo.InvariantCulture.NumberFormat);
             String D_C = Request.Form["D_C"];
@@ -266,6 +272,7 @@ namespace Project.Controllers
                 flight.origin_country = O_C;
             String date = Request.Form["Date"];
             if (date != "")
+            {
                 try
                 {
                     /*flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);*/
@@ -278,38 +285,40 @@ namespace Project.Controllers
 
                     return View("SearchFlights");
                 }
+            }
             
-                FlightDal entities = new FlightDal();
+            FlightDal entities = new FlightDal();
 
-                List<Flight> flightLst = new List<Flight>();
+            List<Flight> flightLst = new List<Flight>();
 
-                foreach (Flight f in entities.Flights.ToList())
-                {
+            foreach (Flight f in entities.Flights.ToList())
+            {
 
-                    if (flight.price != 0 && f.price > flight.price)
+                if (flight.price != 0 && f.price > flight.price)
+                    continue;
+
+                if (flight.destination_country != null && f.destination_country != flight.destination_country)
+                    continue;
+
+                if (flight.origin_country != null && f.origin_country != flight.origin_country)
                         continue;
 
-                    if (flight.destination_country != null && f.destination_country != flight.destination_country)
-                        continue;
-
-                    if (flight.origin_country != null && f.origin_country != flight.origin_country)
-                            continue;
-
-                    if (date != "" && f.date_time != flight.date_time)
-                        continue;
+                if (date != "" && f.date_time != flight.date_time)
+                    continue;
 
 
-                    if (f.date_time >= DateTime.Now)
-                        flightLst.Add(f);
+                if (f.date_time >= DateTime.Now)
+                    flightLst.Add(f);
 
-                }
-                
-                return View("ShowFlightsUser", flightLst);
-            
+            }
+
+            return RedirectToAction("ShowFlightsUser", (global_username, flightLst));
+
         }
-
-        public ActionResult SearchFlights()
+        
+        public ActionResult SearchFlights(string username)
         {
+            ViewBag.username = username;
             return View();
         }
 
@@ -572,7 +581,7 @@ namespace Project.Controllers
 
         }
 
-        public ActionResult ShowTickets(string username)  // $$$
+        public ActionResult ShowTickets(string username)
         {
             ViewBag.username = username;
 
