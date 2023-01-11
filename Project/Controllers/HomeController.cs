@@ -481,10 +481,13 @@ namespace Project.Controllers
 
                     // AES ENCRYPTION
                     string key = ID+cvc;
-                    /*Debug.WriteLine(key);*/
-                    string encrypted = AESEncryption.Encrypt(credit_num, key);
-                    credit_num = encrypted;
-                    /*Debug.WriteLine(AESEncryption.Decrypt(credit_num, key));*/
+                    
+                    string encrypted_cn = AESEncryption.Encrypt(credit_num, key);
+                    credit_num = encrypted_cn;
+
+                    key = ID;
+                    string encrypted_cvc = AESEncryption.Encrypt(cvc, key);
+                    cvc = encrypted_cvc;
 
                     CreditCard c = creditcarddal.CreditCards.Where(i => i.credit_num == credit_num).FirstOrDefault();
                     if (c == null)  // first time paying with this card
