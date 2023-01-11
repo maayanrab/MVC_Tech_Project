@@ -70,14 +70,17 @@
                 </tr>
                 <tr>
                     <td><strong>Number of Tickets:</strong></td>
-                    <td> @Html.TextBoxFor(ticket => ticket.num_of_tickets, new { @id = "textbox", @oninput = "updateLabel()" }) @Html.ValidationMessageFor(ticket => ticket.num_of_tickets)</td>
+                    <td>
+                        <input type="number" value="1" name="num_of_tickets" id="textbox" min="1" oninput = "updateLabel()||validity.valid||(value='')" />
+                    </td>
+                    @*<td> @Html.TextBoxFor(ticket => ticket.num_of_tickets, new { @id = "textbox", @oninput = "updateLabel()" }) @Html.ValidationMessageFor(ticket => ticket.num_of_tickets)</td>*@
                 </tr>
 
             </table>
 
             <center>
                 <text>Price <b>per</b> ticket: @ViewBag.price$</text><br />
-                <label for="textbox">Total Price: 0$</label>
+                <label for="textbox">Total Price: @ViewBag.price$</label>
             </center>
 
             <script>
