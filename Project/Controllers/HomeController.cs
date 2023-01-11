@@ -269,7 +269,17 @@ namespace Project.Controllers
             FlightDal dal = new FlightDal();
             String price = Request.Form["Price"];
             if (price != "")
-                flight.price = float.Parse(price, CultureInfo.InvariantCulture.NumberFormat);
+                try
+                {
+                    flight.price = float.Parse(price, CultureInfo.InvariantCulture.NumberFormat);
+                }
+                catch
+                {
+                    String errormsg = "Error: price is invalid, must be a number.";
+                    ViewBag.Message = errormsg;
+
+                    return View("SearchFlights");
+                }
             String D_C = Request.Form["D_C"];
             if (D_C != "")
                 flight.destination_country = D_C;
@@ -334,9 +344,11 @@ namespace Project.Controllers
             return View("ShowFlights", OrderFlights(sort));
         }
 
-        public ActionResult OrderUserFlights(String sort, String username)
+        public ActionResult OrderUserFlights(String sort, String username, int reset = 0)
         {
             ViewBag.username = username;
+            if (reset == 1)
+                return View("ShowFlightsUser", OrderFlights(sort));
             return View("ShowFlightsUser", OrderFlights(sort, cur_fl));
         }
 

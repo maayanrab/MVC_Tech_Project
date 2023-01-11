@@ -67,7 +67,8 @@
                     <td>&emsp;</td>
                     <td>&emsp;</td>
                     @*<td><a href="/Home/ShowFlightsUser/@Model.username" target="UserPages"><h4>Show Flights</h4></a></td>*@
-                    <td><a href="/Home/OrderUserFlights?username=@Model.username" target="UserPages"><h4>Show Flights</h4></a></td>
+                    @*<td><a href="/Home/OrderUserFlights?username=@Model.username" target="UserPages"><h4>Show Flights</h4></a></td>*@
+                    <td><a href="/Home/OrderUserFlights/@Model.username/1" target="UserPages"><h4>Show Flights</h4></a></td>
                     <td>&emsp;</td>
                     <td>&emsp;</td>
                     <td><a href="/Home/ShowTickets/@Model.username" target="UserPages"><h4>My Tickets</h4></a></td>
