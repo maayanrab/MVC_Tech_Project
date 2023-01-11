@@ -515,7 +515,7 @@ namespace Project.Controllers
                     flight.num_of_seats -= ticket.num_of_tickets;
                     flightdal.SaveChanges();
 
-                    // Payment successful  $$$
+                    // Payment successful
                     TempData["flight_num"] = flight.flight_num;
                     TempData["destination_country"] = flight.destination_country;
                     TempData["origin_country"] = flight.origin_country;
@@ -541,7 +541,7 @@ namespace Project.Controllers
 
         }
 
-        public ActionResult ShowTickets(string username)
+        public ActionResult ShowTickets(string username)  // $$$
         {
             ViewBag.username = username;
 
@@ -549,18 +549,28 @@ namespace Project.Controllers
 
             List<Ticket> ticketLst = new List<Ticket>();
 
+            FlightDal flightdal = new FlightDal();
+
+            List<Flight> flights = new List<Flight>();
+
             foreach (Ticket t in entities.Tickets.ToList())
             {
                 if (t.username == username)
                     ticketLst.Add(t);
 
+                Flight temp = flightdal.Flights.Where(i => i.flight_num == t.flight_num).FirstOrDefault();
+
+                flights.Add(temp);
+
             }
+
+            ViewBag.flights = flights;
 
             return View(ticketLst);
 
         }
 
-        public ActionResult PaymentSuccessful()  // $$$
+        public ActionResult PaymentSuccessful()
         {
             ViewBag.flight_num = TempData["flight_num"];
             TempData["flight_num"] = null;

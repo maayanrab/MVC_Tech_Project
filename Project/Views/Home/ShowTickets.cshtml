@@ -53,7 +53,21 @@
                     @*@Html.DisplayNameFor(model => model.num_of_tickets)*@
                     <text style="color:white">Number of Tickets</text>
                 </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.num_of_tickets)*@
+                    <text style="color:white">Date & Time</text>
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.num_of_tickets)*@
+                    <text style="color:white">Destination Country</text>
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.num_of_tickets)*@
+                    <text style="color:white">Origin Country</text>
+                </th>
             </tr>
+
+            @{ int i = 0; }
 
             @foreach (var item in Model)
             {
@@ -64,7 +78,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.num_of_tickets)
                     </td>
+                    <td>
+                        @ViewBag.flights[i].date_time
+                    </td>
+                    <td>
+                        @ViewBag.flights[i].destination_country
+                    </td>
+                    <td>
+                        @ViewBag.flights[i].origin_country
+                    </td>
                 </tr>
+
+                { i++; }
             }
 
         </table>
