@@ -197,7 +197,8 @@ namespace Project.Controllers
             {
                 try
                 {
-                    cur_flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
+                    /*cur_flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);*/
+                    cur_flight.date_time = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture);
                 }
                 catch
                 {

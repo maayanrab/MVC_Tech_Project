@@ -54,37 +54,38 @@
                     <td><strong>Flight Number:</strong></td>
                     @*<td> @Html.TextBoxFor(flight => flight.flight_num) @Html.ValidationMessageFor(flight => flight.flight_num)</td>*@
                     <td>
-                        <input type="number" value="@ViewBag.flight_num" name="flight_num" id="flight_num" />
+                        <input type="number" value="@ViewBag.flight_num" name="flight_num" id="flight_num" style="width: 100%;" />
                     </td>
                 </tr>
                 <tr>
                     <td><strong>Price ($):</strong></td>
                     <td>
-                        <input type="text" value="" name="price" id="price" />
+                        <input type="text" value="" name="price" id="price" style="width: 100%;" />
                     </td>
                 </tr>
                 <tr>
                     <td><strong>Destination Country:</strong></td>
                     <td>
-                        <input type="text" value="" name="dest_country" id="dest_country" />
+                        <input type="text" value="" name="dest_country" id="dest_country" style="width: 100%;" />
                     </td>
                 </tr>
                 <tr>
                     <td><strong>Origin Country:</strong></td>
                     <td>
-                        <input type="text" value="" name="or_country" id="or_country" />
+                        <input type="text" value="" name="or_country" id="or_country" style="width: 100%;" />
                     </td>
                 </tr>
                 <tr>
                     <td><strong>Date and Time:</strong></td>
                     <td>
-                        <input textmode="DateTime" type="text" value="" name="Date" id="Date" class="hasDatepicker" />
+                        <input type="datetime-local" id="Date" name="Date" value="" min="2023-01-01T00:00" max="2025-06-14T00:00" style="width: 100%;">
+                        @*<input textmode="DateTime" type="text" value="" name="Date" id="Date" class="hasDatepicker" />*@
                     </td>
                 </tr>
                 <tr>
                     <td><strong>Available Seats:</strong></td>
                     <td>
-                        <input type="number" value="" name="seats_num" id="seats_num" />
+                        <input type="number" value="" name="seats_num" id="seats_num" style="width: 100%;" />
                     </td>
                 </tr>
             </table>

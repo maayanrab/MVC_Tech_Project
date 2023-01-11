@@ -54,28 +54,28 @@
                     </tr>*@
                 <tr>
                     <td><strong>Price ($):</strong></td>
-                    <td> @Html.TextBoxFor(flight => flight.price) @Html.ValidationMessageFor(flight => flight.price)</td>
+                    <td> @Html.TextBoxFor(flight => flight.price, new { @style = "width: 40%;" }) @Html.ValidationMessageFor(flight => flight.price)</td>
                 </tr>
                 <tr>
                     <td><strong>Destination Country:</strong></td>
-                    <td> @Html.TextBoxFor(flight => flight.destination_country) @Html.ValidationMessageFor(flight => flight.destination_country)</td>
+                    <td> @Html.TextBoxFor(flight => flight.destination_country, new { @style = "width: 40%;" }) @Html.ValidationMessageFor(flight => flight.destination_country)</td>
                 </tr>
                 <tr>
                     <td><strong>Origin Country:</strong></td>
-                    <td> @Html.TextBoxFor(flight => flight.origin_country) @Html.ValidationMessageFor(flight => flight.origin_country)</td>
+                    <td> @Html.TextBoxFor(flight => flight.origin_country, new { @style = "width: 40%;" }) @Html.ValidationMessageFor(flight => flight.origin_country)</td>
                 </tr>
                 <tr>
                     <td><strong>Date and Time:</strong></td>
                     <td>
 
-                        <input type="datetime-local" id="Date" name="Date" value="" min="2023-01-01T00:00" max="2025-06-14T00:00" @*style="width: 45.5%;"*@>
+                        <input type="datetime-local" id="Date" name="Date" value="" min="2023-01-01T00:00" max="2025-06-14T00:00" style="width: 40%;">
 
                         @*<input textmode="DateTime" type="text" value="" name="Date" id="Date" class="hasDatepicker" />*@
                     </td>
                 </tr>
                 <tr>
                     <td><strong>Number of Seats:</strong></td>
-                    <td> @Html.TextBoxFor(flight => flight.num_of_seats) @Html.ValidationMessageFor(flight => flight.num_of_seats)</td>
+                    <td> @Html.TextBoxFor(flight => flight.num_of_seats, new { @style = "width: 40%;" }) @Html.ValidationMessageFor(flight => flight.num_of_seats)</td>
                 </tr>
             </table>
 
