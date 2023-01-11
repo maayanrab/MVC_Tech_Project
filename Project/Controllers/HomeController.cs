@@ -268,7 +268,8 @@ namespace Project.Controllers
             if (date != "")
                 try
                 {
-                    flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
+                    /*flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);*/
+                    flight.date_time = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture);
                 }
                 catch
                 {
