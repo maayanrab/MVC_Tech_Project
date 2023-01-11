@@ -131,7 +131,9 @@ namespace Project.Controllers
             try
             {
                 String date = Request.Form["Date"];
-                flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);
+
+                flight.date_time = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture);
+
                 dal.Flights.Add(flight);
                 dal.SaveChanges();
 
