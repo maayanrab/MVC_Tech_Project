@@ -317,8 +317,9 @@ namespace Project.Controllers
 
                 if (TempData["S_Date"] != null)
                 {
-                    if (DateTime.ParseExact(TempData["S_Date"].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) > f.date_time)
-                        continue;
+                    if (DateTime.Parse(TempData["S_Date"].ToString()) > f.date_time)
+                    /*if (DateTime.ParseExact(TempData["S_Date"].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) > f.date_time)*/
+                            continue;
                 }
 
                 if (f.date_time >= DateTime.Now)
@@ -338,7 +339,8 @@ namespace Project.Controllers
 
         public ActionResult OrderAdminFlights(String sort)
         {
-            return View("ShowFlights", OrderFlights(sort));
+            FlightDal dal = new FlightDal();
+            return View("ShowFlights", OrderFlights(sort, dal.Flights.ToList()));
         }
 
         public ActionResult OrderUserFlights(String sort, String username, int reset = 0)
@@ -646,7 +648,7 @@ namespace Project.Controllers
             ViewBag.date_time = TempData["date_time"];
             TempData["date_time"] = null;
 
-            ViewBag.date = DateTime.ParseExact(ViewBag.date_time.ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            /*ViewBag.date = DateTime.ParseExact(ViewBag.date_time.ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);*/
 
             ViewBag.num_of_tickets = TempData["num_of_tickets"];
             TempData["num_of_tickets"] = null;
