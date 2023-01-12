@@ -313,9 +313,8 @@ namespace Project.Controllers
                 if (flight.origin_country != null && f.origin_country != flight.origin_country)
                     continue;
 
-                if (date != "" && f.date_time != flight.date_time)
+                if (date != "" && (f.date_time.Day != flight.date_time.Day || f.date_time.Month != flight.date_time.Month || f.date_time.Year != flight.date_time.Year))
                     continue;
-
 
                 if (f.date_time >= DateTime.Now)
                     flightLst.Add(f);
