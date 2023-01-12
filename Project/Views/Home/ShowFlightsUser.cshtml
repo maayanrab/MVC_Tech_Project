@@ -43,69 +43,79 @@
     <center>
         <h1>Show Flights</h1>
         @*@ViewBag.username*@
-        <table class="table" border="0">
-            <tr style="background-color: #669dd2">
-                <th>
-                    @*@Html.DisplayNameFor(model => model.flight_num)*@
-                    <text style="color:white">Flight Number</text>
-                </th>
-                <th>
-                    @Html.ActionLink("Price ($)", "OrderUserFlights", new { sort = ViewBag.PriceSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
-                </th>
-                <th>
-                    @Html.ActionLink("Destination Country", "OrderUserFlights", new { sort = ViewBag.D_C_SortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
-                </th>
-                <th>
-                    @Html.ActionLink("Origin Country", "OrderUserFlights", new { sort = ViewBag.O_C_SortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
-                </th>
-                <th>
-                    @Html.ActionLink("Date & Time", "OrderUserFlights", new { sort = ViewBag.DateSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
-                </th>
-                <th>
-                    @*@Html.DisplayNameFor(model => model.num_of_seats)*@
-                    <text style="color:white">Available Seats</text>
-                </th>
-                <th>
-                    @Html.ActionLink("Popularity", "OrderUserFlights", new { sort = ViewBag.PopSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
-                </th>
-                <th>
-                    <text style="color:white">Booking</text>
-                </th>
+    <table class="table" border="0">
+        <tr style="background-color: #669dd2">
+            <th>
+                @*@Html.DisplayNameFor(model => model.flight_num)*@
+                <text style="color:white">Flight Number</text>
+            </th>
+            <th>
+                @Html.ActionLink("Price ($)", "OrderUserFlights", new { sort = ViewBag.PriceSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
+            </th>
+            <th>
+                @Html.ActionLink("Destination Country", "OrderUserFlights", new { sort = ViewBag.D_C_SortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
+            </th>
+            <th>
+                @Html.ActionLink("Origin Country", "OrderUserFlights", new { sort = ViewBag.O_C_SortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
+            </th>
+            <th>
+                @Html.ActionLink("Date & Time", "OrderUserFlights", new { sort = ViewBag.DateSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.num_of_seats)*@
+                <text style="color:white">Available Seats</text>
+            </th>
+            <th>
+                @Html.ActionLink("Popularity", "OrderUserFlights", new { sort = ViewBag.PopSortParm, username = @ViewBag.username }, new { style = "text-decoration:none; color:white;" })
+            </th>
+            <th>
+                <text style="color:white">Booking</text>
+            </th>
+        </tr>
+        @{ int i = 0; }
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.flight_num)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.destination_country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.origin_country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date_time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.num_of_seats)
+                </td>
+                <td>
+                    @String.Format("{0:0.00}%", (@item.popularity * 100))
+                    @*@{@(@item.popularity * 100)}*@
+                    @*@Html.DisplayFor(modelItem => item.popularity)*@
+                </td>
+                <td>
+                    @Html.ActionLink("Book Flight", "BookFlights", new { id = item.flight_num, username = @ViewBag.username })
+                </td>
             </tr>
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.flight_num)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.destination_country)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.origin_country)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.date_time)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.num_of_seats)
-                    </td>
-                    <td>
-                        @String.Format("{0:0.00}%", (@item.popularity * 100))
-                        @*@{@(@item.popularity * 100)}*@
-                        @*@Html.DisplayFor(modelItem => item.popularity)*@
-                    </td>
-                    <td>
-                        @Html.ActionLink("Book Flight", "BookFlights", new { id = item.flight_num, username = @ViewBag.username })
-                    </td>
-                </tr>
-            }
+            { i++; }
+        }
 
-        </table>
+    </table>
+
+        @{ 
+            if (i == 0)
+            {
+            <text>No flights matching your querry.</text>
+                }
+            }
 
     </center>
 </body>
