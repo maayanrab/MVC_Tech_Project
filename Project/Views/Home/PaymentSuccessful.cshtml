@@ -38,7 +38,7 @@
         Payment successful. You can view your tickets at any time in "My Tickets" section.
         <br /><br />
     </div>
-    <div style="background: rgb(255, 255, 255, 0.7);" id="printableArea">
+    <div class="center" style="background: rgb(255, 255, 255, 0.7);" id="printableArea">
         <h2>Summary:</h2>
         <table class="center">
             <tr>
@@ -109,6 +109,38 @@
             document.body.innerHTML = originalContents;
         }
     </script>
+    @{ TempData["S_Date"] = ViewBag.date_time; }
+    <br />
+    
+    <center>
+        @using (Html.BeginForm("SearchFlight", "Home", FormMethod.Post))
+        {
+            <div style="background: rgb(255, 255, 255, 0.7);">
+                <h3>Planning a two-way trip?</h3>
+                <table class="center">
+                    <tr>
+                        <td>
+                            Destination Country:
+                        </td>
+                        <td>
+                            <input textmode="D_C" readonly="readonly" value="@ViewBag.origin_country" type="text" name="D_C" id="D_C" style="width: 100%;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Origin Country:
+                        </td>
+                        <td>
+                            <input textmode="O_C" readonly="readonly" value="@ViewBag.destination_country" type="text" name="O_C" id="O_C" style="width: 100%;" />
+                        </td>
+                    </tr>
+                </table>
+                <br />
+            </div>
+            <br />
+            <input id="SearchFlight" type="submit" value="Search Flight" />
+            }
+    </center>
 
 </body>
 </html>

@@ -262,7 +262,7 @@ namespace Project.Controllers
         {
             FlightDal dal = new FlightDal();
             String price = Request.Form["Price"];
-            if (price != "")
+            if (price != "" && price != null)
                 try
                 {
                     flight.price = float.Parse(price, CultureInfo.InvariantCulture.NumberFormat);
@@ -281,11 +281,10 @@ namespace Project.Controllers
             if (O_C != "")
                 flight.origin_country = O_C;
             String date = Request.Form["Date"];
-            if (date != "")
+            if (date != "" && date != null)
             {
                 try
                 {
-                    /*flight.date_time = DateTime.ParseExact(date, "d/M/yyyy HH:mm", CultureInfo.InvariantCulture);*/
                     flight.date_time = DateTime.ParseExact(date, "yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture);
                 }
                 catch
@@ -304,7 +303,7 @@ namespace Project.Controllers
             foreach (Flight f in entities.Flights.ToList())
             {
 
-                if (flight.price != 0 && f.price > flight.price)
+                if (price != null && flight.price != 0 && f.price > flight.price)
                     continue;
 
                 if (flight.destination_country != null && f.destination_country != flight.destination_country)
@@ -313,15 +312,20 @@ namespace Project.Controllers
                 if (flight.origin_country != null && f.origin_country != flight.origin_country)
                     continue;
 
-                if (date != "" && (f.date_time.Day != flight.date_time.Day || f.date_time.Month != flight.date_time.Month || f.date_time.Year != flight.date_time.Year))
+                if (date != null && date != "" && (f.date_time.Day != flight.date_time.Day || f.date_time.Month != flight.date_time.Month || f.date_time.Year != flight.date_time.Year))
                     continue;
+
+                if (TempData["S_Date"] != null)
+                {
+                    if (DateTime.ParseExact(TempData["S_Date"].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture) > f.date_time)
+                        continue;
+                }
 
                 if (f.date_time >= DateTime.Now)
                     flightLst.Add(f);
             }
 
             cur_fl = flightLst;
-            /*return RedirectToAction("ShowFlightsUser", new { username = global_username, flightLs = flightLst });*/
             return RedirectToAction("OrderUserFlights", new { username = global_username });
 
         }
@@ -347,8 +351,6 @@ namespace Project.Controllers
 
         public List<Flight> OrderFlights(String sort, List<Flight> fl=null)
         {
-            FlightDal entities = new FlightDal();
-
             ViewBag.PriceSortParm = sort == "price_inc" ? "price_desc" : "price_inc";
             ViewBag.D_C_SortParm = sort == "D_C_a" ? "D_C_d" : "D_C_a";
             ViewBag.O_C_SortParm = sort == "O_C_a" ? "O_C_d" : "O_C_a";
@@ -357,7 +359,6 @@ namespace Project.Controllers
 
             IEnumerable<Flight> ent;
 
-            /*var ent = from f in entities.Flights*/
             if (fl == null)
             {
                 ent = from f in updateFlights()
@@ -644,6 +645,8 @@ namespace Project.Controllers
 
             ViewBag.date_time = TempData["date_time"];
             TempData["date_time"] = null;
+
+            ViewBag.date = DateTime.ParseExact(ViewBag.date_time.ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 
             ViewBag.num_of_tickets = TempData["num_of_tickets"];
             TempData["num_of_tickets"] = null;

@@ -40,7 +40,6 @@
 <body>
     <center>
         <h1>Search Flights</h1>
-        @*@ViewBag.username*@
     </center>
     <div>
         @using (Html.BeginForm("SearchFlight", "Home", FormMethod.Post))
@@ -69,7 +68,6 @@
                     <td><strong>Date and Time:</strong></td>
                     <td>
                         <input type="datetime-local" id="Date" name="Date" value="" min="2023-01-01T00:00" max="2025-06-14T00:00" style="width: 100%;">
-                        @*<input textmode="DateTime" type="text" name="Date" id="Date" class="hasDatepicker" />*@
                     </td>
 
             </table>
