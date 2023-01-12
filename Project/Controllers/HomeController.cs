@@ -311,7 +311,7 @@ namespace Project.Controllers
                     continue;
 
                 if (flight.origin_country != null && f.origin_country != flight.origin_country)
-                        continue;
+                    continue;
 
                 if (date != "" && f.date_time != flight.date_time)
                     continue;
